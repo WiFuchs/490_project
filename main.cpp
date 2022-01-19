@@ -33,26 +33,30 @@ int main() {
         cout << "Did you read the lab instructions?" << endl;
     }
 
-    //NOW fill in these too
     cout << "*** the state that needs the most high schools**" << endl;
-    cout << "Name of state: " << theAnswers.teenPop() << endl;
-    //FILL IN
+    if (theAnswers.getStateData(needPK) != nullptr){
+        cout << *(theAnswers.getStateData(theAnswers.teenPop())) << endl;
+    }
 
     cout << "*** the state that needs the most vaccines**" << endl;
-    cout << "Name of state: " << theAnswers.wisePop() << endl;
-    //FILL IN
+    if (theAnswers.getStateData(needPK) != nullptr){
+        cout << *(theAnswers.getStateData(theAnswers.wisePop())) << endl;
+    }
 
     cout << "*** the state that needs the most help with education**" << endl;
-    cout << "Name of state: " << theAnswers.underServeHS() << endl;
-    //FILL IN
+    if (theAnswers.getStateData(needPK) != nullptr){
+        cout << *(theAnswers.getStateData(  theAnswers.underServeHS())) << endl;
+    }
 
     cout << "*** the state with most college grads**" << endl;
-    cout << "Name of state: " << theAnswers.collegeGrads() << endl;
-    //FILL IN
+    if (theAnswers.getStateData(needPK) != nullptr){
+        cout << *(theAnswers.getStateData(  theAnswers.collegeGrads())) << endl;
+    }
 
     cout << "*** the state with largest percent of the population below the poverty line**" << endl;
-    cout << "Name of state: " << theAnswers.belowPoverty() << endl;
-    //FILL IN
+    if (theAnswers.getStateData(needPK) != nullptr){
+        cout << *(theAnswers.getStateData(  theAnswers.belowPoverty())) << endl;
+    }
 
     return 0;
 }
