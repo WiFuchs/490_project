@@ -75,6 +75,7 @@ void dataAQ::createStateData(std::vector<shared_ptr<demogData>> theData) {
       personsPerHouse += elem->getPersonsPerHouse();
     }
 
+
     medianIncome = medianIncome /  counties;
     personsPerHouse = personsPerHouse / stateTotalPop2020;
 
