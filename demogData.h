@@ -14,6 +14,8 @@ using namespace std;
 */
 class demogData {
   public:
+    typedef double(demogData::*get_percent_function)(void) const;
+
     demogData(string inN, string inS, double in65, double in18,
         double in5, int totPop20, Ethnicity ethnicity,
         double mIncome, double homeowners, double pph, double vet,
