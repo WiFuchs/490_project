@@ -17,7 +17,7 @@ int main() {
     theAnswers.createStateData(theData);
 
     string youngestPop = theAnswers.youngestPop();
-  	ASSERT_EQUALS("UT",youngestPop);
+  	ASSERT_EQUALS("AK",youngestPop);
 
   	string bachelors = theAnswers.collegeGrads();
   	ASSERT_EQUALS("DC",bachelors);

@@ -9,8 +9,6 @@ dataAQ::dataAQ() {}
 /* necessary function to aggregate the data - this CAN and SHOULD vary per
    student - depends on how they map, etc. */
 void dataAQ::createStateData(std::vector<shared_ptr<demogData>> theData) {
-  //FILL in
-
   //groups counties into groups based on state
   map<std::string, vector< shared_ptr<demogData> > > CountyGroupings;
 
@@ -93,21 +91,17 @@ void dataAQ::createStateData(std::vector<shared_ptr<demogData>> theData) {
   CountyGroupings.clear(); //delete county groupings map
 }
 
+bool compareYoungest(const pair<string, shared_ptr<demogState>>& p1, const pair<string, shared_ptr<demogState>>& p2) {
+    return p1.second->getPopUnder5P() < p2.second->getPopUnder5P();
+}
+
 //return the name of the state with the largest population under age 5
 string dataAQ::youngestPop() {
-  string youngestPopState;
   double youngestPopNumber = 0;
 
-  for (auto entry : AggregateStateData) {
-    double popUnder5;
-    //get popUnder5 of state
-    popUnder5 = entry.second->getPopUnder5P();
-    if (popUnder5 > youngestPopNumber) {
-      youngestPopNumber = popUnder5;
-      youngestPopState = entry.first;
-    }
-  }
-  return youngestPopState;
+  shared_ptr<demogState> youngestPopState = max_element(AggregateStateData.begin(), AggregateStateData.end(), compareYoungest)->second;
+
+  return youngestPopState->getState();
 }
 
 //return the name of the state with the largest population under age 18
