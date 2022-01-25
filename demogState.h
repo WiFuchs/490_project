@@ -14,7 +14,8 @@
 
 class demogState {
   public:
-   //FILL IN
+
+      using getterFunc = double (demogState::*)() const;
    demogState(string inS, int in65, int in18,
        int in5, int totPop20, Ethnicity ethnicity,
        int mIncome, int homeowners, int pph, int vet,
@@ -60,6 +61,7 @@ class demogState {
    //Miscellaneous Info
    int getForeignBorn() const { return foreignBorn; }
    int getVeterans() const { return veterans; }
+   double getVeteransP() const { return (veterans / double(totalPopulation2020)) * 100.0;}
    int getMedianIncome() const { return medianIncome; }
    int getFemales() const { return females; }
    double getFemalesP() const { return (females / double(totalPopulation2020)) * 100; }

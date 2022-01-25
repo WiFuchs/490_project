@@ -23,9 +23,6 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ClangdSettings">
-    <option name="formatViaClangd" value="false" />
-  </component>
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -84,6 +81,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="RunOnceActivity.cidr.known.project.marker" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="cf.advertisement.text.overridden" value="true" />
     <property name="cf.first.check.clang-format" value="false" />
     <property name="cidr.known.project.marker" value="true" />
     <property name="node.js.detected.package.eslint" value="true" />
@@ -134,7 +132,7 @@
       <option name="presentableId" value="Default" />
       <updated>1642567894015</updated>
       <workItem from="1642567895631" duration="9621000" />
-      <workItem from="1642999216351" duration="1497000" />
+      <workItem from="1642999216351" duration="7555000" />
     </task>
     <task id="LOCAL-00001" summary="complete queries in main">
       <created>1642568756323</created>

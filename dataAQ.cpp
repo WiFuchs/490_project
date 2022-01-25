@@ -91,18 +91,56 @@ void dataAQ::createStateData(std::vector<shared_ptr<demogData>> theData) {
   CountyGroupings.clear(); //delete county groupings map
 }
 
-bool compareYoungest(const pair<string, shared_ptr<demogState>>& p1, const pair<string, shared_ptr<demogState>>& p2) {
-    return p1.second->getPopUnder5P() < p2.second->getPopUnder5P();
-}
+//bool compareYoungest(const pair<string, shared_ptr<demogState>>& p1, const pair<string, shared_ptr<demogState>>& p2) {
+//    return p1.second->getPopUnder5P() < p2.second->getPopUnder5P();
+//}
 
 //return the name of the state with the largest population under age 5
 string dataAQ::youngestPop() {
-  double youngestPopNumber = 0;
-
-  shared_ptr<demogState> youngestPopState = max_element(AggregateStateData.begin(), AggregateStateData.end(), compareYoungest)->second;
+    auto youngestPopComparator = createComparator(&demogState::getPopUnder5P);
+  shared_ptr<demogState> youngestPopState = max_element(AggregateStateData.begin(), AggregateStateData.end(), youngestPopComparator)->second;
 
   return youngestPopState->getState();
 }
+
+string dataAQ::leastHomeowners() {
+    auto leastHomeownersComparator = createComparator(&demogState::getHomeownersP);
+    shared_ptr<demogState> leastHomeownersState = min_element(AggregateStateData.begin(), AggregateStateData.end(), leastHomeownersComparator)->second;
+
+    return leastHomeownersState->getState();
+}
+
+string dataAQ::mostFemales() {
+    auto femalesComparator = createComparator(&demogState::getFemalesP);
+    shared_ptr<demogState> mostFemalesState = max_element(AggregateStateData.begin(), AggregateStateData.end(), femalesComparator)->second;
+
+    return mostFemalesState->getState();
+}
+
+string dataAQ::mostVeterans() {
+    auto veteransComparator = createComparator(&demogState::getVeteransP);
+    shared_ptr<demogState> mostVeteransState = max_element(AggregateStateData.begin(), AggregateStateData.end(), veteransComparator)->second;
+
+    return mostVeteransState->getState();
+}
+
+//return the name of the state with the largest population of foreign born people
+string dataAQ::mostForBorn() {
+    auto mostForBornComparator = [] (const pair<string, shared_ptr<demogState>>& p1, const pair<string, shared_ptr<demogState>>& p2) -> bool {
+        return p1.second->getForeignBorn() < p2.second->getForeignBorn();
+    };
+    shared_ptr<demogState> mostForBornState = max_element(AggregateStateData.begin(), AggregateStateData.end(), mostForBornComparator)->second;
+
+    return mostForBornState->getState();
+}
+
+// helper function to return a comparator for any getter in our demogState class
+std::function<bool(const pair<std::string, shared_ptr<demogState>>, const pair<std::string, shared_ptr<demogState>>)> dataAQ::createComparator(demogState::getterFunc getter) {
+    return [=] (const pair<string, shared_ptr<demogState>>& p1, const pair<string, shared_ptr<demogState>>& p2) -> bool {
+        return (p1.second.get()->*getter)() < (p2.second.get()->*getter)();
+    };
+}
+
 
 //return the name of the state with the largest population under age 18
 string dataAQ::teenPop()  {

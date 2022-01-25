@@ -30,6 +30,14 @@ class dataAQ {
     string collegeGrads();
     //return the name of the state with the largest population below the poverty line
     string belowPoverty();
+    //return the name of the state with the largest population of foreign born people
+    string mostForBorn();
+    //return the name of the state with the fewest % homeowners
+    string leastHomeowners();
+    //return the name of the state with the highest % females
+    string mostFemales();
+    //return the name of the state with the highest % veterans
+    string mostVeterans();
 
     //getter given a state name return a pointer to demogState data
     shared_ptr<demogState> getStateData(string stateName) {/*fix this*/
@@ -49,7 +57,7 @@ class dataAQ {
     //core data private for dataAQ
     private:
       map<std::string, shared_ptr<demogState> > AggregateStateData;
-       //Decide how to aggregate the data into a map ADD here
+      static std::function<bool(pair<std::string, shared_ptr<demogState>>, pair<std::string, shared_ptr<demogState>>)> createComparator(demogState::getterFunc getter);
 
 };
 #endif
