@@ -86,7 +86,7 @@ void dataAQ::createStateData(std::vector<shared_ptr<demogData>> theData) {
                       bachelorsDegree, foreignBorn, housingUnits, females, counties);
 
     AggregateStateData[state] = s;
-    std::cout << *s << endl;
+    //std::cout << *s << endl;
   }
   CountyGroupings.clear(); //delete county groupings map
 }

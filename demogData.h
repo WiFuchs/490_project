@@ -34,33 +34,33 @@ class demogData {
     //Population Info
     double getPopOver65() const { return popOver65; }
     int getPopOver65Count() const {
-      double count = totalPopulation2020 * (popOver65 * .01);
+      double count = totalPopulation2020 * popOver65;
       return round(count); }
     double getPopUnder18() const { return popUnder18; }
     int getPopUnder18Count() const {
-      double count = totalPopulation2020 * (popUnder18 * .01);
+      double count = totalPopulation2020 * popUnder18;
       return round(count); }
     double getPopUnder5() const { return popUnder5; }
     int getPopUnder5Count() const {
-      double count = totalPopulation2020 * (popUnder5 * .01);
+      double count = totalPopulation2020 * popUnder5;
       return round(count); }
     int getTotalPopulation2020() const { return totalPopulation2020; }
 
     //Education Info
     double getHighSchoolDegree() const { return highSchoolDegree; }
     int getHighSchoolDegreeCount() const {
-      double count = totalPopulation2020 * (highSchoolDegree * .01);
+      double count = totalPopulation2020 * highSchoolDegree;
       return round(count); }
 
     double getBachelorsDegree() const { return bachelorsDegree; }
     int getBachelorsDegreeCount() const {
-      double count = totalPopulation2020 * (bachelorsDegree * .01);
+      double count = totalPopulation2020 * bachelorsDegree;
       return round(count); }
 
     //Housing info
     double getHomeowners() const { return homeowners; }
     int getHomeownersCount() const {
-      double count = totalPopulation2020 * (homeowners * .01);
+      double count = totalPopulation2020 * homeowners;
       return round(count); }
 
     double getPersonsPerHouse() const { return personsPerHouse; }
@@ -69,16 +69,16 @@ class demogData {
     //Miscellaneous Info
     double getForeignBorn() const { return foreignBorn; }
     int getForeignBornCount() const {
-      double count = totalPopulation2020 * (foreignBorn * .01);
+      double count = totalPopulation2020 * foreignBorn;
       return round(count); }
 
-    double getVeterans() const { return (veterans / totalPopulation2020) * 100; }
+    double getVeterans() const { return veterans / totalPopulation2020; }
     int getVeteransCount() const { return veterans; }
     double getMedianIncome() const { return medianIncome; }
 
     double getFemales() const { return females; }
     int getFemalesCount() const {
-      double count = totalPopulation2020 * (females * .01);
+      double count = totalPopulation2020 * females;
       return round(count);}
 
    friend std::ostream& operator<<(std::ostream &out, const demogData &DD);

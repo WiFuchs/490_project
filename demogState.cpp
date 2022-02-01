@@ -14,14 +14,14 @@ std::ostream& operator<<(std::ostream &out, const demogState&SD) {
   out << "Number of Counties: " << SD.getCounties() << endl;
 
   out << "Population info:" << endl;
-  out << "(over 65): " << SD.getPopOver65P() << "% and total: " << SD.getPopOver65() << endl;
-  out << "(under 18): " << SD.getPopUnder18P() << "% and total: " << SD.getPopUnder18() << endl;
-  out << "(under 5): " << SD.getPopUnder5P() << "% and total: " << SD.getPopUnder5() << endl;
-  out << "(female): " << SD.getFemalesP() << "% and total: " << SD.getFemales() << endl;
+  out << "(over 65): " << SD.getPopOver65P() << " and total: " << SD.getPopOver65() << endl;
+  out << "(under 18): " << SD.getPopUnder18P() << " and total: " << SD.getPopUnder18() << endl;
+  out << "(under 5): " << SD.getPopUnder5P() << " and total: " << SD.getPopUnder5() << endl;
+  out << "(female): " << SD.getFemalesP() << " and total: " << SD.getFemales() << endl;
 
   out << "Education info:" << endl;
-  out << "(Bachelor or more): " << SD.getBachelorsDegreeP() << "% and total " << SD.getBachelorsDegree() << endl;
-  out << "(high school or more): " << SD.getHighSchoolDegreeP() << "% and total " << SD.getHighSchoolDegree() << endl;
+  out << "(Bachelor or more): " << SD.getBachelorsDegreeP() << " and total " << SD.getBachelorsDegree() << endl;
+  out << "(high school or more): " << SD.getHighSchoolDegreeP() << " and total " << SD.getHighSchoolDegree() << endl;
   out << "medIncome: $" << SD.getMedianIncome() << endl;
   out << "Total population: " << SD.getTotalPopulation2020() << endl;
 
