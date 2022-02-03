@@ -2,12 +2,19 @@
 #include <string>
 #include <fstream>
 #include <vector>
+#include <array>
 #include <map>
 #include "demogData.h"
 #include "parse.h"
 #include "dataAQ.h"
+#include "DataDraw.h"
+#include "ellipse.h"
 
 using namespace std;
+
+shared_ptr<shape> make_shape(shared_ptr<demogData> county, double block_size) {
+    return make_shared<ellipse>(0, 0, block_size, block_size, color(255, 0, 0));
+}
 
 int main() {
 
@@ -36,6 +43,32 @@ int main() {
     }
 
     theAnswers.createStateData(theData);
+    // Example of using the DataDraw class
+    //TODO does below work with size?
+    std::array<color, 10> colorMap;
+    colorMap[0] = color(91, 80, 235); //cool
+    colorMap[1] = color(95, 166, 245);
+    colorMap[2] = color(99, 223, 220);
+    colorMap[3] = color(95, 245, 155);
+    colorMap[4] = color(128, 235, 96); //midway
+    colorMap[5] = color(235, 235, 75);
+    colorMap[6] = color(245, 213, 91);
+    colorMap[7] = color(223, 170, 94);
+    colorMap[8] = color(245, 134, 91);
+    colorMap[9] = color(235, 91, 101); //warm
+    DataDraw drawer = DataDraw(600);
+    double max_fb = (*max_element(theData.begin(), theData.end(), [](auto a, auto b) -> bool {
+                        return a->getForeignBorn() < b->getForeignBorn();
+                    }))->getForeignBorn();
+    std::sort(theData.begin(), theData.end(), [](auto a, auto b) -> bool {
+        return a->getForeignBorn() < b->getForeignBorn();
+    });
+    drawer.addShapeForObject(theData, function<shared_ptr<shape>(shared_ptr<demogData>, double)>([=](const shared_ptr<demogData>& county, double block_size) -> shared_ptr<shape> {
+                double scaled = county->getForeignBorn() / max_fb;
+                double size = scaled * block_size / 2.0;
+                return make_shared<ellipse>(0, 0, size, size, colorMap[round(scaled * 9)]);
+            }));
+    drawer.draw("test_abstraction.ppm");
 
     return 0;
 }
