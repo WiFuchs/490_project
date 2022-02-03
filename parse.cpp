@@ -113,29 +113,29 @@ shared_ptr<psData> readCSVLinePolice(std::string theLine) {
     std::stringstream ss(theLine);
 
     //TO DO read in the fields - use getFieldNQ as no quotes!!
-    getFieldNQ(ss); //ignore id
-    string name = getFieldNQ(ss);
+    getField(ss); //ignore id
+    string name = getField(ss);
     //skip 2
-    getFieldNQ(ss);
-    getFieldNQ(ss);
+    getField(ss);
+    getField(ss);
     //fill in
-    string armed = getFieldNQ(ss);
+    string armed = getField(ss);
 
-    getFieldNQ(ss);
-    getFieldNQ(ss);
+    getField(ss);
+    getField(ss);
 
-    string ethnicity = getFieldNQ(ss);
-    string city = getFieldNQ(ss);
-    string state = getFieldNQ(ss);
-    string mentalIll = getFieldNQ(ss);
+    string ethnicity = getField(ss);
+    string city = getField(ss);
+    string state = getField(ss);
+    string mentalIll = getField(ss);
 
-    getFieldNQ(ss);
-    getFieldNQ(ss);
+    getField(ss);
+    getField(ss);
 
-    string bodyCam = getFieldNQ(ss);
-    getFieldNQ(ss);
-    getFieldNQ(ss);
-    getFieldNQ(ss);
+    string bodyCam = getField(ss);
+    getField(ss);
+    getField(ss);
+    getField(ss);
 
     /* TO DO fix */
     return make_shared<psData>(state, city, name, ethnicity, mentalIll, armed, bodyCam);

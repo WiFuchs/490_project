@@ -6,6 +6,8 @@
 #include <vector>
 #include <map>
 #include "demogState.h"
+#include "psData.h"
+#include "psCombo.h"
 
 /*
   data aggregator and query for testing
@@ -17,6 +19,7 @@ class dataAQ {
     /* necessary function to aggregate the data - this CAN and SHOULD vary per
         student - depends on how they map, etc. */
     void createStateData(std::vector<shared_ptr<demogData>> theData);
+    void createStatePoliceData(std::vector<shared_ptr<psData>> theData);
 
     //return the name of the state with the largest population under age 5
     string youngestPop();
@@ -44,12 +47,20 @@ class dataAQ {
 
       auto it = AggregateStateData.find(stateName);
       if (it == AggregateStateData.end()){
-        return nullptr;
+          cout << "HERE" << stateName << endl;
+          return nullptr;
       }
       else {
         return it->second;
       }
     }
+
+    //sort and report the top ten states in terms of number of police shootings
+    void reportTopTenStatesPS();
+    void reportBottomTenStatesHomeOwn();
+
+    //shared_ptr<demogState> getStateData(string stateName) { return allStateData[stateName]; }
+    shared_ptr<psCombo> getStatePoliceData(string stateName) { return allStatePoliceData[stateName]; }
 
     //must implement output per aggregate data
     friend std::ostream& operator<<(std::ostream &out, const dataAQ &allStateData);
@@ -59,5 +70,7 @@ class dataAQ {
       map<std::string, shared_ptr<demogState> > AggregateStateData;
       static std::function<bool(pair<std::string, shared_ptr<demogState>>, pair<std::string, shared_ptr<demogState>>)> createComparator(demogState::getterFunc getter);
 
+      //std::map<string, shared_ptr<demogState>> allStateData;
+      std::map<string, shared_ptr<psCombo>> allStatePoliceData;
 };
 #endif

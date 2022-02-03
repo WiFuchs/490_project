@@ -10,10 +10,10 @@ all: ${BINARIES}
 tests: ${BINARIES}
 	./testStates
 
-dataProj: dataAQ.o demogState.o demogData.o parse.o main.o Ethnicity.o psData.o
+dataProj: dataAQ.o demogState.o demogData.o parse.o main.o Ethnicity.o psData.o psCombo.o psEthnicity.o
 	${CXX} $^ -o $@
 
-testStates: testStates.o dataAQ.o demogState.o demogData.o parse.o  tddFuncs.o Ethnicity.o psData.o
+testStates: testStates.o dataAQ.o demogState.o demogData.o parse.o tddFuncs.o Ethnicity.o psData.o psCombo.o psEthnicity.o
 	${CXX} $^ -o $@
 
 clean:

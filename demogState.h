@@ -18,7 +18,7 @@ class demogState {
       using getterFunc = double (demogState::*)() const;
    demogState(string inS, int in65, int in18,
        int in5, int totPop20, Ethnicity ethnicity,
-       int mIncome, int homeowners, int pph, int vet,
+       int mIncome, int homeowners, double pph, int vet,
        int highSchool, int bachelors, int foreign, int hUnits,
        int females, int counties) :
            state(inS), popOver65(in65), popUnder18(in18),
@@ -53,13 +53,18 @@ class demogState {
    double getBachelorsDegreeP() const { return (bachelorsDegree / double(totalPopulation2020)) * 100; }
 
    //Housing info
-   int getHomeowners() const { return homeowners; }
+   float getHomeowners() const { return homeowners; }
    double getHomeownersP() const { return (homeowners / double(totalPopulation2020)) * 100; }
-   int getPersonsPerHouse() const { return personsPerHouse; }
+
+   double getAvgPersonsPerHouse() const { return personsPerHouse; }
+   double getPersonsPerHouseP() const { return (personsPerHouse / double(housingUnits)) * 100.0;}
+
    int getHousingUnits() const { return housingUnits; }
 
    //Miscellaneous Info
    int getForeignBorn() const { return foreignBorn; }
+   double getForeignBornP() const { return (foreignBorn / double(totalPopulation2020)) * 100.0;}
+
    int getVeterans() const { return veterans; }
    double getVeteransP() const { return (veterans / double(totalPopulation2020)) * 100.0;}
    int getMedianIncome() const { return medianIncome; }
@@ -79,7 +84,7 @@ class demogState {
   const Ethnicity ethnicity;
   const int medianIncome;
   const int homeowners;
-  const int personsPerHouse;
+  const double personsPerHouse;
   const int veterans;
   const int highSchoolDegree;
   const int bachelorsDegree;

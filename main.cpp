@@ -12,14 +12,15 @@ using namespace std;
 int main() {
 
     dataAQ theAnswers;
+    dataAQ policeAnswers;
 
     //read in a csv file and create a vector of objects representing each counties data
     std::vector<shared_ptr<demogData>> theData = read_csv(
             "county_demographics.csv", DEMOG);
 
-    //debug print out - uncomment if you want to double check your data
-    // for (const auto &obj : theData) {
-    //   std::cout << *obj << std::endl; }
+//    //debug print out - uncomment if you want to double check your data
+//     for (const auto &obj : theData) {
+//       std::cout << *obj << std::endl; }
 
 
     std::vector<shared_ptr<psData>> thePoliceData = read_csvPolice(
@@ -27,15 +28,22 @@ int main() {
 
     //debug print out if needed left for your use in testing
 
-    int i = 0;
-    for (const auto &obj : thePoliceData) {
-        std::cout << *obj << std::endl;
-        i++;
-        if (i > 15)
-            break;
-    }
+//    int i = 0;
+//    for (const auto &obj : thePoliceData) {
+//        std::cout << *obj << std::endl;
+//        i++;
+//        if (i > 15)
+//            break;
+//    }
 
     theAnswers.createStateData(theData);
+    theAnswers.createStatePoliceData(thePoliceData);
+
+//    cout << *policeAnswers.getStatePoliceData("CA") << endl; //**fix** incidents involving unarmed or armed w. toy weapons (~50 off)
+//    cout << "\n\n";
+//    cout << *theAnswers.getStateData("CA") << endl; // **fix** native hawaiian/pacific islander (zeroing out), county/housing section (dataAQ wrong)
+
+    theAnswers.reportTopTenStatesPS();  // **fix** sorting (error: invalid operands to binary expression)
 
     return 0;
 }

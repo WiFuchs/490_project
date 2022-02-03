@@ -24,6 +24,7 @@ public:
     string getCity() const { return city; }
     string getName() const { return name; }
     string getEthnicity() const { return ethnicity; }
+
     string getSignsMentalIllness() const { return signsMentalIllness; }
     string getArmed() const { return armed; }
     string getBodyCam() const { return bodyCam; }
