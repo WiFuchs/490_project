@@ -26,8 +26,8 @@ int main() {
             "county_demographics.csv", DEMOG);
 
 //    //debug print out - uncomment if you want to double check your data
-//     for (const auto &obj : theData) {
-//       std::cout << *obj << std::endl; }
+     for (const auto &obj : theData) {
+       std::cout << *obj << std::endl; }
 
 
     std::vector<shared_ptr<psData>> thePoliceData = read_csvPolice(
@@ -67,14 +67,16 @@ int main() {
     colorMap[8] = color(245, 134, 91);
     colorMap[9] = color(235, 91, 101); //warm
     DataDraw drawer = DataDraw(600);
-    double max_fb = (*max_element(theData.begin(), theData.end(), [](auto a, auto b) -> bool {
-                        return a->getForeignBorn() < b->getForeignBorn();
-                    }))->getForeignBorn();
-    std::sort(theData.begin(), theData.end(), [](auto a, auto b) -> bool {
-        return a->getForeignBorn() < b->getForeignBorn();
+    auto stateData = theAnswers.getAllStateData();
+    double max_fb = (*max_element(stateData.begin(), stateData.end(), [](auto a, auto b) -> bool {
+                        return a->getForeignBornP() < b->getForeignBornP();
+                    }))->getForeignBornP();
+    std::sort(stateData.begin(), stateData.end(), [](auto a, auto b) -> bool {
+        return a->getState() < b->getState();
     });
-    drawer.addShapeForObject(theData, function<shared_ptr<shape>(shared_ptr<demogData>, double)>([=](const shared_ptr<demogData>& county, double block_size) -> shared_ptr<shape> {
-                double scaled = county->getForeignBorn() / max_fb;
+    drawer.addShapeForObject(stateData, function<shared_ptr<shape>(shared_ptr<demogState>, double)>([=](const shared_ptr<demogState>& county, double block_size) -> shared_ptr<shape> {
+                 cout << county->getState() << " " << county->getForeignBornP() << endl;
+                double scaled = county->getForeignBornP() / max_fb;
                 double size = scaled * block_size / 2.0;
                 return make_shared<ellipse>(0, 0, size, size, colorMap[round(scaled * 9)]);
             }));

@@ -53,12 +53,14 @@ void dataAQ::createStatePoliceData(std::vector<shared_ptr<psData>> theData){
             White = WhiteNH + Latinx;
             cases += 1;
         }
+
         psEthnicity eth = psEthnicity(WhiteNH, Black, Asian, FirstNation, Latinx, Other, cases); //fix other... new class?
 
         shared_ptr<psCombo> psC = make_shared<psCombo>(state, signsMentalIllness, unArmedCount, armedToy, bodyCam, cases, state, eth); //for p2 return state for region
         allStatePoliceData[state] = psC;
 
     }
+
     StateGroups.clear();
 }
 
@@ -70,17 +72,18 @@ void dataAQ::createStatePoliceData(std::vector<shared_ptr<psData>> theData){
 void dataAQ::reportTopTenStatesPS(){
     //FILL in
     //sort the data
-    vector<shared_ptr<psCombo>> mapCopy;
+
+    vector<shared_ptr<psCombo>> allPSData;
     for( auto it = allStatePoliceData.begin(); it != allStatePoliceData.end(); it++){
-        mapCopy.push_back(it->second);
-    }
-    std::sort(mapCopy.begin(), mapCopy.end(), [](auto ps1, auto ps2) -> bool {
+        allPSData.push_back(it->second);}
+
+    std::sort(allPSData.begin(), allPSData.end(), [](auto ps1, auto ps2) -> bool {
         return ps1->getNumberOfCases() > ps2->getNumberOfCases(); });
 
     cout << "Top ten states sorted on number police shootings & the associated census data: " << endl;
     //print the mini report data
     int i = 0;
-    for (const auto &obj : mapCopy) {
+    for (const auto &obj : allPSData ) {
         cout << *obj << endl; //state string
         shared_ptr<demogState> state = this->getStateData(obj->getRegion()); // get a pointer to the relevant state
 
@@ -112,8 +115,7 @@ bool bachelorsComparator (const pair<string, shared_ptr<demogState>>& p1, const 
 
 void dataAQ::reportBottomTenStatesHomeOwn(){
     //FILL in
-    //std::sort(allStateData.begin(), allStateData.end(), bachelorsComparator);
-    //std::sort(allStateData.begin(), allStateData.end(), []());
+
 }
 
 /* necessary function to aggregate the data - this CAN and SHOULD vary per
@@ -144,7 +146,7 @@ void dataAQ::createStateData(std::vector<shared_ptr<demogData>> theData) {
     int popUnder18 = 0;
     int popUnder5 = 0;
     int medianIncome = 0;
-    int homeowners = 0;
+    double homeowners = 0;
     double personsPerHouse = 0;
     int veterans = 0;
     int highSchoolDegree = 0;
@@ -182,8 +184,8 @@ void dataAQ::createStateData(std::vector<shared_ptr<demogData>> theData) {
       medianIncome += elem->getMedianIncome();
       personsPerHouse += elem->getPersonsPerHouse();
     }
+    cout << "HOMEOWNER " << homeowners << endl;
     medianIncome = double(medianIncome) / double(counties);  //aggregate of county level average income / # counties
-
     personsPerHouse = double(personsPerHouse) / double(housingUnits);
 
     Ethnicity e = Ethnicity(whiteAlone, blackAlone, aIndianANativeAlone,
@@ -197,6 +199,10 @@ void dataAQ::createStateData(std::vector<shared_ptr<demogData>> theData) {
 
     AggregateStateData[state] = s;
     //std::cout << *s << endl;
+  }
+
+  for( auto it = AggregateStateData.begin(); it != AggregateStateData.end(); it++){
+      allStates.push_back(it->second);
   }
   CountyGroupings.clear(); //delete county groupings map
 }

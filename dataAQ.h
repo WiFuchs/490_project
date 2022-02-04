@@ -42,6 +42,8 @@ class dataAQ {
     //return the name of the state with the highest % veterans
     string mostVeterans();
 
+    vector<shared_ptr<demogState>> getAllStateData(){ return allStates; }
+
     //getter given a state name return a pointer to demogState data
     shared_ptr<demogState> getStateData(string stateName) {/*fix this*/
 
@@ -67,6 +69,7 @@ class dataAQ {
 
     //core data private for dataAQ
     private:
+        vector<shared_ptr<demogState>> allStates;
       map<std::string, shared_ptr<demogState> > AggregateStateData;
       static std::function<bool(pair<std::string, shared_ptr<demogState>>, pair<std::string, shared_ptr<demogState>>)> createComparator(demogState::getterFunc getter);
 
