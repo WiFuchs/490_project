@@ -184,7 +184,6 @@ void dataAQ::createStateData(std::vector<shared_ptr<demogData>> theData) {
       medianIncome += elem->getMedianIncome();
       personsPerHouse += elem->getPersonsPerHouse();
     }
-    cout << "HOMEOWNER " << homeowners << endl;
     medianIncome = double(medianIncome) / double(counties);  //aggregate of county level average income / # counties
     personsPerHouse = double(personsPerHouse) / double(housingUnits);
 
