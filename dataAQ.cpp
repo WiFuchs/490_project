@@ -4,7 +4,6 @@
 #include <iostream>
 #include <algorithm>
 #include "psData.h"
-#include "psEthnicity.h"
 
 #include <vector>
 #include <string>
@@ -33,15 +32,14 @@ void dataAQ::createStatePoliceData(std::vector<shared_ptr<psData>> theData){
         int Latinx = 0;
         //int HIPacificIsle = 0;
         //int MultiRace = 0;
-        int White = 0;
         int WhiteNH = 0;
-        int Other = 0; //what to do with this??
-    //W: White, non-Hispanic B: Black, non-Hispanic A: Asian N: Native American H: Hispanic O: Other None: unknown
+        int Unspecified = 0; //what to do with this??
+    //W: White, non-Hispanic B: Black, non-Hispanic A: Asian N: Native American H: Hispanic O: Unspecified None: unknown
 
         for (auto elem : entry.second) {
             if (elem->getSignsMentalIllness() == "TRUE"){signsMentalIllness += 1;}
             if (elem->getArmed() == "unarmed" or elem->getArmed() == "" or elem->getArmed() == "undetermined"){unArmedCount += 1;}
-            if (elem->getArmed() == "toy weapon"){armedToy += 1;}
+            if (elem->getArmed().find("toy") != string::npos){armedToy += 1;}
             if (elem->getBodyCam() == "TRUE"){bodyCam += 1;}
 
             if (elem->getEthnicity() == "A"){Asian += 1;}
@@ -49,13 +47,11 @@ void dataAQ::createStatePoliceData(std::vector<shared_ptr<psData>> theData){
             if (elem->getEthnicity() == "B"){Black += 1;}
             if (elem->getEthnicity() == "W"){WhiteNH += 1;}
             if (elem->getEthnicity() == "N"){FirstNation += 1;}
-            if (elem->getEthnicity() == "O" or elem->getEthnicity() == ""){Other += 1;}
-            White = WhiteNH + Latinx;
+            if (elem->getEthnicity() == "O" or elem->getEthnicity() == ""){ Unspecified += 1;}
             cases += 1;
         }
-
-        psEthnicity eth = psEthnicity(WhiteNH, Black, Asian, FirstNation, Latinx, Other, cases); //fix other... new class?
-
+        Ethnicity eth = Ethnicity(WhiteNH, Black, FirstNation, Asian, Latinx, Unspecified, cases);
+        cout << state << ": " << cases << eth << endl;
         shared_ptr<psCombo> psC = make_shared<psCombo>(state, signsMentalIllness, unArmedCount, armedToy, bodyCam, cases, state, eth); //for p2 return state for region
         allStatePoliceData[state] = psC;
         allPSData.push_back(psC);

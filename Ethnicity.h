@@ -15,48 +15,58 @@ class Ethnicity {
         whiteAlone(white), blackAlone(black), aIndianANativeAlone(IndianOrNative),
         asianAlone(asian), hawaiianPIslanderAlone(hawaiianPIslander),
         twoOrMore(twoOrMore), hispanicOrLatino(hispOrLat),
-        whiteNotHispOrLat(whiteNotHOrL), totalPopulation2020(totPop20) {}
+        whiteNotHispOrLat(whiteNotHOrL), totalPopulation2020(totPop20), unspecified(0) {}
+
+    Ethnicity(int white, int black, int IndianOrNative,
+              int asian, int hispOrLat, int unspecified, int totPop20) :
+                 whiteAlone(white / double(totPop20)), blackAlone(black / double(totPop20)), aIndianANativeAlone(IndianOrNative / double(totPop20)),
+                 asianAlone(asian / double(totPop20)), hawaiianPIslanderAlone(0),
+                 twoOrMore(0), hispanicOrLatino(hispOrLat / double(totPop20)), unspecified(unspecified / double(totPop20)),
+                 whiteNotHispOrLat(0), totalPopulation2020(totPop20) {}
 
     double getTotalPopulation2020() const { return totalPopulation2020; }
-    int getWhiteAlone() const { return whiteAlone; }
+    double getWhiteAlone() const { return whiteAlone; }
     int getWhiteAloneCount() const {
         double count = whiteAlone * totalPopulation2020;
         return round(count); }
 
-    int getBlackAlone() const { return blackAlone; }
+    double getBlackAlone() const { return blackAlone; }
     int getBlackAloneCount() const {
       double count = blackAlone * totalPopulation2020;
       return round(count); }
 
-    int getAIndianANativeAlone() const { return aIndianANativeAlone; }
+    double getAIndianANativeAlone() const { return aIndianANativeAlone; }
     int getAIndianANativeAloneCount() const {
       double count = totalPopulation2020 * aIndianANativeAlone;
       return round(count); }
 
-    int getAsianAlone() const { return asianAlone; }
+    double getAsianAlone() const { return asianAlone; }
     int getAsianAloneCount() const {
       double count = totalPopulation2020 * asianAlone;
       return round(count); }
 
-    int getHawaiianPIslanderAlone() const { return hawaiianPIslanderAlone; }
+    double getHawaiianPIslanderAlone() const { return hawaiianPIslanderAlone; }
     int getHawaiianPIslanderAloneCount() const {
       double count = totalPopulation2020 * hawaiianPIslanderAlone;
       return round(count); }
 
-    int getTwoOrMore() const { return twoOrMore; }
+    double getTwoOrMore() const { return twoOrMore; }
     int getTwoOrMoreCount() const {
       double count = totalPopulation2020 * twoOrMore;
       return round(count); }
 
-    int getHispanicOrLatino() const { return hispanicOrLatino; }
+    double getHispanicOrLatino() const { return hispanicOrLatino; }
     int getHispanicOrLatinoCount() const {
       double count = totalPopulation2020 * hispanicOrLatino;
       return round(count); }
 
-    int getWhiteNotHispOrLat() const { return whiteNotHispOrLat; }
+    double getWhiteNotHispOrLat() const { return whiteNotHispOrLat; }
     int getWhiteNotHispOrLatCount() const {
       double count = totalPopulation2020 * whiteNotHispOrLat;
       return round(count); }
+
+    double getUnspecified() const {return unspecified;}
+    int getUnspecifiedCount() const {return round(unspecified*totalPopulation2020);}
 
     friend std::ostream& operator<<(std::ostream &out, const Ethnicity &E);
 
@@ -67,6 +77,7 @@ class Ethnicity {
       const double asianAlone;
       const double hawaiianPIslanderAlone;
       const double twoOrMore;
+      const double unspecified;
       const double hispanicOrLatino;
       const double whiteNotHispOrLat;
       const int totalPopulation2020;

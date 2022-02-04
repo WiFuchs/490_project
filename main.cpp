@@ -16,9 +16,6 @@ using namespace std;
  * Authors: Sarah Hallam & Will Fuchs
  */
 
-shared_ptr<shape> make_shape(shared_ptr<demogData> county, double block_size) {
-    return make_shared<ellipse>(0, 0, block_size, block_size, color(255, 0, 0));
-}
 
 int main() {
 
@@ -29,8 +26,8 @@ int main() {
             "county_demographics.csv", DEMOG);
 
 //    //debug print out - uncomment if you want to double check your data
-     for (const auto &obj : theData) {
-       std::cout << *obj << std::endl; }
+//     for (const auto &obj : theData) {
+//       std::cout << *obj << std::endl; }
 
 
     std::vector<shared_ptr<psData>> thePoliceData = read_csvPolice(
@@ -50,14 +47,9 @@ int main() {
 
     theAnswers.createStatePoliceData(thePoliceData);
 
-//    cout << *policeAnswers.getStatePoliceData("CA") << endl; //**fix** incidents involving unarmed or armed w. toy weapons (~50 off)
-//    cout << "\n\n";
-//    cout << *theAnswers.getStateData("CA") << endl; // **fix** native hawaiian/pacific islander (zeroing out), county/housing section (dataAQ wrong)
-
-    theAnswers.reportTopTenStatesPS();  // **fix** sorting (error: invalid operands to binary expression)
+    theAnswers.reportTopTenStatesPS();
 
     // Example of using the DataDraw class
-    //TODO does below work with size?
     std::array<color, 10> colorMap;
     colorMap[0] = color(91, 80, 235); //cool
     colorMap[1] = color(95, 166, 245);

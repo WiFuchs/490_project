@@ -2,13 +2,13 @@
 #define POLICECOMBODATA_H
 
 #include "psData.h"
-#include "psEthnicity.h"
+#include "Ethnicity.h"
 
 using namespace std;
 
 class psCombo {
 public:
-    psCombo(string inS, int mentalI, int unArmedC, int armedToy, int bodyC, int cases, string region, psEthnicity eth) :
+    psCombo(string inS, int mentalI, int unArmedC, int armedToy, int bodyC, int cases, string region, Ethnicity eth) :
                                                                                                         state(inS), numMentalI(mentalI), unArmedCount(unArmedC), armedToy(armedToy), numBodyCam(bodyC),
                                                                                                         numberOfCases(cases), region(region), raceEthnicity(eth) {} //add
     //complete these
@@ -20,7 +20,7 @@ public:
     string getRegion() const { return region; } //return state for p2
 
     //add any others needed
-    psEthnicity getRaceEthnicity() const { return raceEthnicity; }
+    Ethnicity getRaceEthnicity() const { return raceEthnicity; }
 
     double getMentalIP() const { return (double(numMentalI) / double(numberOfCases)) * 100;}
     double getUnArmedP() const { return (double(unArmedCount) / double(numberOfCases)) * 100;}
@@ -41,7 +41,7 @@ protected:
     const int numBodyCam;
     const int numberOfCases;
     const string region;
-    const psEthnicity raceEthnicity;
+    const Ethnicity raceEthnicity;
 };
 
 #endif
