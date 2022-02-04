@@ -53,7 +53,7 @@ class demogState {
    double getBachelorsDegreeP() const { return (bachelorsDegree / double(totalPopulation2020)) * 100; }
 
    //Housing info
-   float getHomeowners() const { return homeowners; }
+   int getHomeowners() const { return homeowners; }
    double getHomeownersP() const { return (homeowners / double(totalPopulation2020)) * 100; }
 
    double getAvgPersonsPerHouse() const { return personsPerHouse; }
@@ -67,7 +67,7 @@ class demogState {
 
    int getVeterans() const { return veterans; }
    double getVeteransP() const { return (veterans / double(totalPopulation2020)) * 100.0;}
-   int getMedianIncome() const { return medianIncome; }
+   double getMedianIncome() const { return double(medianIncome); }
    int getFemales() const { return females; }
    double getFemalesP() const { return (females / double(totalPopulation2020)) * 100; }
    int getCounties() const { return counties; }

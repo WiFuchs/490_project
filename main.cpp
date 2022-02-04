@@ -12,6 +12,10 @@
 
 using namespace std;
 
+/*
+ * Authors: Sarah Hallam & Will Fuchs
+ */
+
 shared_ptr<shape> make_shape(shared_ptr<demogData> county, double block_size) {
     return make_shared<ellipse>(0, 0, block_size, block_size, color(255, 0, 0));
 }
@@ -19,7 +23,6 @@ shared_ptr<shape> make_shape(shared_ptr<demogData> county, double block_size) {
 int main() {
 
     dataAQ theAnswers;
-    dataAQ policeAnswers;
 
     //read in a csv file and create a vector of objects representing each counties data
     std::vector<shared_ptr<demogData>> theData = read_csv(
@@ -68,19 +71,41 @@ int main() {
     colorMap[9] = color(235, 91, 101); //warm
     DataDraw drawer = DataDraw(600);
     auto stateData = theAnswers.getAllStateData();
-    double max_fb = (*max_element(stateData.begin(), stateData.end(), [](auto a, auto b) -> bool {
-                        return a->getForeignBornP() < b->getForeignBornP();
-                    }))->getForeignBornP();
+    auto psData = theAnswers.getAllPSData();
+
+
+    // draw foreign born and homeowners on one plot
+    double max_fb = theAnswers.mostForBorn()->getForeignBornP();
+    double max_homeown = theAnswers.mostHomeowners()->getHomeownersP();
     std::sort(stateData.begin(), stateData.end(), [](auto a, auto b) -> bool {
         return a->getState() < b->getState();
     });
-    drawer.addShapeForObject(stateData, function<shared_ptr<shape>(shared_ptr<demogState>, double)>([=](const shared_ptr<demogState>& county, double block_size) -> shared_ptr<shape> {
-                 cout << county->getState() << " " << county->getForeignBornP() << endl;
-                double scaled = county->getForeignBornP() / max_fb;
+    drawer.addShapeForObject(stateData, function<shared_ptr<shape>(shared_ptr<demogState>, double)>([=](const shared_ptr<demogState>& state, double block_size) -> shared_ptr<shape> {
+                                 double scaled = state->getHomeownersP() / max_homeown;
+                                 double size = scaled * block_size / 2.0;
+                                 return make_shared<ellipse>(0, 0, size, size, colorMap[round(scaled * 9)]);
+                             }));
+    drawer.addShapeForObject(stateData, function<shared_ptr<shape>(shared_ptr<demogState>, double)>([=](const shared_ptr<demogState>& state, double block_size) -> shared_ptr<shape> {
+                double scaled = state->getForeignBornP() / max_fb;
                 double size = scaled * block_size / 2.0;
                 return make_shared<ellipse>(0, 0, size, size, colorMap[round(scaled * 9)]);
             }));
-    drawer.draw("test_abstraction.ppm");
+    drawer.draw("homeowners_fb.ppm");
+    drawer.clearShapes();
 
+    // draw police shooting data and median income on one plot
+    double max_income = theAnswers.maxQuery(&demogState::getMedianIncome)->getMedianIncome();
+    int max_incidents = theAnswers.maxPSQuery(&psCombo::getNumberOfCases)->getNumberOfCases();
+    drawer.addShapeForObject(stateData,function<shared_ptr<shape>(shared_ptr<demogState>, double)>([=](const shared_ptr<demogState>& state, double block_size) -> shared_ptr<shape> {
+                                 double scaled = state->getMedianIncome() / double(max_income);
+                                 double size = scaled * block_size / 2.0;
+                                 return make_shared<ellipse>(0, 0, size, size, colorMap[round(scaled * 9)]);
+                             }));
+    drawer.addShapeForObject(psData,function<shared_ptr<shape>(shared_ptr<psCombo>, double)>([=](const shared_ptr<psCombo>& state, double block_size) -> shared_ptr<shape> {
+                                 double scaled = state->getNumberOfCases() / double(max_incidents);
+                                 double size = scaled * block_size / 2.0;
+                                 return make_shared<ellipse>(0, 0, size, size, colorMap[round(scaled * 9)]);
+                             }));
+    drawer.draw("income_ps.ppm");
     return 0;
 }

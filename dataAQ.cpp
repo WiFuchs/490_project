@@ -58,7 +58,7 @@ void dataAQ::createStatePoliceData(std::vector<shared_ptr<psData>> theData){
 
         shared_ptr<psCombo> psC = make_shared<psCombo>(state, signsMentalIllness, unArmedCount, armedToy, bodyCam, cases, state, eth); //for p2 return state for region
         allStatePoliceData[state] = psC;
-
+        allPSData.push_back(psC);
     }
 
     StateGroups.clear();
@@ -145,14 +145,14 @@ void dataAQ::createStateData(std::vector<shared_ptr<demogData>> theData) {
     int popOver65 = 0;
     int popUnder18 = 0;
     int popUnder5 = 0;
-    int medianIncome = 0;
+    long medianIncome = 0;
     double homeowners = 0;
     double personsPerHouse = 0;
     int veterans = 0;
     int highSchoolDegree = 0;
     int bachelorsDegree = 0;
     int foreignBorn = 0;
-    int housingUnits = 0;
+    long housingUnits = 0;
     int females = 0;
     int stateTotalPop2020 = 0;
     int counties = 0;
@@ -172,7 +172,7 @@ void dataAQ::createStateData(std::vector<shared_ptr<demogData>> theData) {
       popUnder5 += elem->getPopUnder5Count();
       stateTotalPop2020 += elem->getTotalPopulation2020();
 
-      homeowners += elem->getHomeowners();
+      homeowners += elem->getHomeownersCount();
       veterans += elem->getVeteransCount();
       highSchoolDegree += elem->getHighSchoolDegreeCount();
       bachelorsDegree += elem->getBachelorsDegreeCount();
@@ -181,10 +181,14 @@ void dataAQ::createStateData(std::vector<shared_ptr<demogData>> theData) {
       females += elem->getFemalesCount();
       counties += 1;
 
-      medianIncome += elem->getMedianIncome();
+      int old_income = medianIncome;
+      medianIncome += elem->getMedianIncome() * elem->getHousingUnits();
+      if (old_income > medianIncome) {
+          cout << "whoops: " << elem->getName() << ": " << elem->getHousingUnits() << " : " << elem->getMedianIncome() << endl;
+      }
       personsPerHouse += elem->getPersonsPerHouse();
     }
-    medianIncome = double(medianIncome) / double(counties);  //aggregate of county level average income / # counties
+    medianIncome = double(medianIncome) / double(housingUnits);  //aggregate of county level average income / # counties
     personsPerHouse = double(personsPerHouse) / double(housingUnits);
 
     Ethnicity e = Ethnicity(whiteAlone, blackAlone, aIndianANativeAlone,
@@ -200,54 +204,41 @@ void dataAQ::createStateData(std::vector<shared_ptr<demogData>> theData) {
     //std::cout << *s << endl;
   }
 
-  for( auto it = AggregateStateData.begin(); it != AggregateStateData.end(); it++){
-      allStates.push_back(it->second);
+  for(auto & it : AggregateStateData){
+      allStates.push_back(it.second);
   }
   CountyGroupings.clear(); //delete county groupings map
 }
 
-//bool compareYoungest(const pair<string, shared_ptr<demogState>>& p1, const pair<string, shared_ptr<demogState>>& p2) {
-//    return p1.second->getPopUnder5P() < p2.second->getPopUnder5P();
-//}
 
+//TODO can these be simplified further into one max/min that takes in the getter and returns the max/min element from the state data collection?
+shared_ptr<demogState> dataAQ::youngestPop() {
+    return max_element(AggregateStateData.begin(), AggregateStateData.end(), createComparator(&demogState::getPopUnder5P))->second;
 
-//return the name of the state with the largest population under age 5
-string dataAQ::youngestPop() {
-    auto youngestPopComparator = createComparator(&demogState::getPopUnder5P);
-  shared_ptr<demogState> youngestPopState = max_element(AggregateStateData.begin(), AggregateStateData.end(), youngestPopComparator)->second;
-
-  return youngestPopState->getState();
 }
 
-string dataAQ::leastHomeowners() {
-    auto leastHomeownersComparator = createComparator(&demogState::getHomeownersP);
-    shared_ptr<demogState> leastHomeownersState = min_element(AggregateStateData.begin(), AggregateStateData.end(), leastHomeownersComparator)->second;
+shared_ptr<demogState> dataAQ::mostHomeowners() {
+    return max_element(AggregateStateData.begin(), AggregateStateData.end(), createComparator(&demogState::getHomeownersP))->second;
 
-    return leastHomeownersState->getState();
 }
 
-string dataAQ::mostFemales() {
-    auto femalesComparator = createComparator(&demogState::getFemalesP);
-    shared_ptr<demogState> mostFemalesState = max_element(AggregateStateData.begin(), AggregateStateData.end(), femalesComparator)->second;
+shared_ptr<demogState> dataAQ::mostFemales() {
+    return max_element(AggregateStateData.begin(), AggregateStateData.end(), createComparator(&demogState::getFemalesP))->second;
 
-    return mostFemalesState->getState();
 }
 
-string dataAQ::mostVeterans() {
-    auto veteransComparator = createComparator(&demogState::getVeteransP);
-    shared_ptr<demogState> mostVeteransState = max_element(AggregateStateData.begin(), AggregateStateData.end(), veteransComparator)->second;
+shared_ptr<demogState> dataAQ::mostVeterans() {
+    return max_element(AggregateStateData.begin(), AggregateStateData.end(), createComparator(&demogState::getVeteransP))->second;
 
-    return mostVeteransState->getState();
+}
+
+shared_ptr<demogState> dataAQ::maxQuery(demogState::getterFunc getter) {
+    return max_element(AggregateStateData.begin(), AggregateStateData.end(), createComparator(getter))->second;
 }
 
 //return the name of the state with the largest population of foreign born people
-string dataAQ::mostForBorn() {
-    auto mostForBornComparator = [] (const pair<string, shared_ptr<demogState>>& p1, const pair<string, shared_ptr<demogState>>& p2) -> bool {
-        return p1.second->getForeignBorn() < p2.second->getForeignBorn();
-    };
-    shared_ptr<demogState> mostForBornState = max_element(AggregateStateData.begin(), AggregateStateData.end(), mostForBornComparator)->second;
-
-    return mostForBornState->getState();
+shared_ptr<demogState> dataAQ::mostForBorn() {
+    return max_element(AggregateStateData.begin(), AggregateStateData.end(), createComparator(&demogState::getForeignBornP))->second;
 }
 
 
@@ -260,81 +251,12 @@ std::function<bool(const pair<std::string, shared_ptr<demogState>>, const pair<s
 
 
 //return the name of the state with the largest population under age 18
-string dataAQ::teenPop()  {
-  string highestTeenPopState;
-  double highestTeenPop;
-
-  for (auto entry : AggregateStateData) {
-    double popUnder18;
-    popUnder18 = entry.second->getPopUnder18P();
-    if (popUnder18 > highestTeenPop) {
-      highestTeenPop = popUnder18;
-      highestTeenPopState = entry.first;
-    }
-  }
-  return highestTeenPopState;
-}
-
-//return the name of the state with the largest population over age 65
-string dataAQ::wisePop()  {
-  string oldPopState;
-  double oldPop;
-
-  for (auto entry : AggregateStateData) {
-    double popOver65;
-    popOver65 = entry.second->getPopOver65P();
-    if (popOver65 > oldPop) {
-      oldPop = popOver65;
-      oldPopState = entry.first;
-    }
-  }
-  return oldPopState;
-}
-
-//return the name of the state with the largest population who did not receive high school diploma
-string dataAQ::underServeHS() {
-  string underServeState;
-  double underServePop = 100;
-
-  for (auto entry : AggregateStateData) {
-    double popWithoutHS;
-    popWithoutHS = entry.second->getHighSchoolDegreeP();
-    if (popWithoutHS < underServePop) {
-      underServePop = popWithoutHS;
-      underServeState = entry.first;
-    }
-  }
-  return underServeState;
+shared_ptr<demogState> dataAQ::teenPop()  {
+    return max_element(AggregateStateData.begin(), AggregateStateData.end(), createComparator(&demogState::getPopUnder18P))->second;
 }
 
 //return the name of the state with the largest population who did receive bachelors degree and up
-string dataAQ::collegeGrads() {
-  string highGradState;
-  double highGradPop;
+shared_ptr<demogState> dataAQ::collegeGrads() {
+    return max_element(AggregateStateData.begin(), AggregateStateData.end(), createComparator(&demogState::getBachelorsDegreeP))->second;
 
-  for (auto entry : AggregateStateData) {
-    double collegeGrads;
-    collegeGrads = entry.second->getBachelorsDegreeP();
-    if (collegeGrads > highGradPop) {
-      highGradPop = collegeGrads;
-      highGradState = entry.first;
-    }
-  }
-  return highGradState;
-}
-
-//return the name of the state with the largest population below the poverty line
-string dataAQ::belowPoverty() {
-  string lowIncomeState;
-  double lowIncome = 10000000000;
-
-  for (auto entry : AggregateStateData) {
-    double income;
-    income = entry.second->getMedianIncome();
-    if (income < lowIncome) {
-      lowIncome = income ;
-      lowIncomeState = entry.first;
-    }
-  }
-  return lowIncomeState;
 }

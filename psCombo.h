@@ -11,7 +11,6 @@ public:
     psCombo(string inS, int mentalI, int unArmedC, int armedToy, int bodyC, int cases, string region, psEthnicity eth) :
                                                                                                         state(inS), numMentalI(mentalI), unArmedCount(unArmedC), armedToy(armedToy), numBodyCam(bodyC),
                                                                                                         numberOfCases(cases), region(region), raceEthnicity(eth) {} //add
-
     //complete these
     int getNumMentalI() const { return numMentalI; } //total count “TRUE”
     int getUnArmedCount() const { return unArmedCount; } //total count blank, ‘unarmed’
