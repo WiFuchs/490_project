@@ -65,7 +65,17 @@ class dataAQ {
     template<typename Getter>
     vector<shared_ptr<State>> genericDemogMaxN(Getter getter, unsigned long n = 1) {
         // sort the list
-        sort(allStates.begin(), allStates.end(), createDemogComparator<Getter>(getter));
+        sort(allStates.begin(), allStates.end(), createDemogGTComparator<Getter>(getter));
+
+        // copy first n elements
+        auto end = next(allStates.begin(), min(n, allStates.size()));
+        return {allStates.begin(), end};
+    }
+
+    template<typename Getter>
+    vector<shared_ptr<State>> genericDemogMinN(Getter getter, unsigned long n = 1) {
+        // sort the list
+        sort(allStates.begin(), allStates.end(), createDemogLTComparator<Getter>(getter));
 
         // copy first n elements
         auto end = next(allStates.begin(), min(n, allStates.size()));
@@ -92,9 +102,16 @@ class dataAQ {
         map<string, shared_ptr<State>> allStatesMap;
 
       template <typename Getter>
-      static function<bool(shared_ptr<State>, shared_ptr<State>)> createDemogComparator(Getter getter) {
+      static function<bool(shared_ptr<State>, shared_ptr<State>)> createDemogGTComparator(Getter getter) {
           return [=] (const shared_ptr<State>& p1, const shared_ptr<State>& p2) -> bool {
               return (p1->getDemoData().get()->*getter)() > (p2->getDemoData().get()->*getter)();
+          };
+      }
+
+      template <typename Getter>
+      static function<bool(shared_ptr<State>, shared_ptr<State>)> createDemogLTComparator(Getter getter) {
+          return [=] (const shared_ptr<State>& p1, const shared_ptr<State>& p2) -> bool {
+              return (p1->getDemoData().get()->*getter)() < (p2->getDemoData().get()->*getter)();
           };
       }
       template <typename Getter>

@@ -51,7 +51,6 @@ void dataAQ::createStatePoliceData(const std::vector<shared_ptr<psData>>& theDat
             cases += 1;
         }
         Ethnicity eth = Ethnicity(WhiteNH, Black, FirstNation, Asian, Latinx, Unspecified, cases);
-        cout << state << ": " << cases << eth << endl;
         shared_ptr<psCombo> psC = make_shared<psCombo>(state, signsMentalIllness, unArmedCount, armedToy, bodyCam, cases, state, eth); //for p2 return state for region
 
         shared_ptr<State> curState = getStateData(state);
@@ -82,9 +81,8 @@ void dataAQ::reportTopTenStatesPS(){
     //print the mini report data
     for (const auto &state : top10PSStates ) {
         shared_ptr<psCombo> obj = state->getPSData();
-        cout << *obj << endl; //state string
+        cout << state->getName() << endl;
         shared_ptr<demogState> demoState = state->getDemoData(); // get a pointer to the relevant state
-
         cout << "Total population: " << demoState->getTotalPopulation2020()  << " Percentage home ownership: " << demoState->getHomeownersP() << endl;
         cout.precision(12);
         double percentPop = (obj->getNumberOfCases() / double(demoState->getTotalPopulation2020())) * 100;
@@ -94,14 +92,40 @@ void dataAQ::reportTopTenStatesPS(){
 
     //print the full report data
     cout << "**Full listings for top 3 police shootings & the associated census data: ";
-
+    for (int i=0; i < 3; i++) {
+        auto state = top10PSStates[i];
+        cout << *(state->getDemoData()) << endl;
+        cout << *(state->getPSData()) << endl;
+    }
 }
 
-
-
 void dataAQ::reportBottomTenStatesHomeOwn(){
-    //FILL in
+    //    //sort the data
+    //    std::sort(allStates.begin(), allStates.end(), [](const shared_ptr<State>& ps1, const shared_ptr<State>& ps2) -> bool {
+    //        return ps1->getPSData()->getNumberOfCases() > ps2->getPSData()->getNumberOfCases(); });
 
+    vector<shared_ptr<State>> bottom10Homeown = genericDemogMinN(&demogState::getHomeownersP, 10);
+
+    cout << "Bottom ten states sorted on % homeownership & the associated census data: " << endl;
+    //print the mini report data
+    for (const auto &state : bottom10Homeown) {
+        shared_ptr<psCombo> obj = state->getPSData();
+        cout << state->getName() << endl;
+        shared_ptr<demogState> demoState = state->getDemoData(); // get a pointer to the relevant state
+        cout << "Total population: " << demoState->getTotalPopulation2020()  << " Percentage home ownership: " << demoState->getHomeownersP() << endl;
+        cout.precision(12);
+        double percentPop = (obj->getNumberOfCases() / double(demoState->getTotalPopulation2020())) * 100;
+        cout << "Police shooting incidents: " << obj->getNumberOfCases() << " Percent of population: " << percentPop << endl;
+        cout.precision(2);
+    }
+
+    //print the full report data
+    cout << "**Full listings for bottom 3 homeownership states & the associated census data: ";
+    for (int i=0; i < 3; i++) {
+        auto state = bottom10Homeown[i];
+        cout << *(state->getDemoData()) << endl;
+        cout << *(state->getPSData()) << endl;
+    }
 }
 
 /* necessary function to aggregate the data - this CAN and SHOULD vary per
@@ -176,7 +200,6 @@ void dataAQ::createStateData(const std::vector<shared_ptr<demogData>>& theData) 
     Ethnicity e = Ethnicity(whiteAlone, blackAlone, aIndianANativeAlone,
                             asianAlone, hawaiianPIslanderAlone, twoOrMore,
                             hispanicOrLatino, whiteNotHispOrLat, stateTotalPop2020);
-
     shared_ptr<demogState> s = make_shared<demogState>(state, popOver65, popUnder18,
                       popUnder5, stateTotalPop2020, e, medianIncome, homeowners,
                       personsPerHouse, veterans, highSchoolDegree,

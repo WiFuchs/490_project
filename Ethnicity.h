@@ -12,10 +12,10 @@ class Ethnicity {
     Ethnicity(double white, double black, double IndianOrNative,
       double asian, double hawaiianPIslander, double twoOrMore,
       double hispOrLat, double whiteNotHOrL, int totPop20) :
-        whiteAlone(white), blackAlone(black), aIndianANativeAlone(IndianOrNative),
-        asianAlone(asian), hawaiianPIslanderAlone(hawaiianPIslander),
-        twoOrMore(twoOrMore), hispanicOrLatino(hispOrLat),
-        whiteNotHispOrLat(whiteNotHOrL), totalPopulation2020(totPop20), unspecified(0) {}
+        whiteAlone(white/ double(totPop20)), blackAlone(black/ double(totPop20)), aIndianANativeAlone(IndianOrNative/ double(totPop20)),
+        asianAlone(asian/ double(totPop20)), hawaiianPIslanderAlone(hawaiianPIslander/ double(totPop20)),
+        twoOrMore(twoOrMore/ double(totPop20)), hispanicOrLatino(hispOrLat/ double(totPop20)),
+        whiteNotHispOrLat(whiteNotHOrL/ double(totPop20)), totalPopulation2020(totPop20), unspecified(0) {}
 
     Ethnicity(int white, int black, int IndianOrNative,
               int asian, int hispOrLat, int unspecified, int totPop20) :
