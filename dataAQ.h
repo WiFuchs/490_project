@@ -8,6 +8,7 @@
 #include "demogState.h"
 #include "psData.h"
 #include "psCombo.h"
+#include "State.h"
 
 /*
   data aggregator and query for testing
@@ -18,8 +19,8 @@ class dataAQ {
 
     /* necessary function to aggregate the data - this CAN and SHOULD vary per
         student - depends on how they map, etc. */
-    void createStateData(std::vector<shared_ptr<demogData>> theData);
-    void createStatePoliceData(std::vector<shared_ptr<psData>> theData);
+    void createStateData(const std::vector<shared_ptr<demogData>>& theData);
+    void createStatePoliceData(const std::vector<shared_ptr<psData>>& theData);
 
     //return the name of the state with the largest population under age 5
     shared_ptr<demogState> youngestPop();
@@ -42,22 +43,13 @@ class dataAQ {
     //return the name of the state with the highest % veterans
     shared_ptr<demogState> mostVeterans();
 
-    //general max query
-    shared_ptr<demogState> maxQuery(demogState::getterFunc getter);
-    template<typename T>
-    shared_ptr<psCombo> maxPSQuery(T getter) {
-        return max_element(allStatePoliceData.begin(), allStatePoliceData.end(), createGenericComparator<psCombo, T>(getter))->second;
-    }
-
-    vector<shared_ptr<demogState>> getAllStateData(){ return allStates; }
-    vector<shared_ptr<psCombo>> getAllPSData(){ return allPSData; }
+    vector<shared_ptr<State>> getAllStateData(){ return allStates; }
 
     //getter given a state name return a pointer to demogState data
-    shared_ptr<demogState> getStateData(string stateName) {/*fix this*/
+    shared_ptr<State> getStateData(string stateName) {/*fix this*/
 
-      auto it = AggregateStateData.find(stateName);
-      if (it == AggregateStateData.end()){
-          cout << "HERE" << stateName << endl;
+      auto it = allStatesMap.find(stateName);
+      if (it == allStatesMap.end()){
           return nullptr;
       }
       else {
@@ -69,27 +61,48 @@ class dataAQ {
     void reportTopTenStatesPS();
     void reportBottomTenStatesHomeOwn();
 
-    //shared_ptr<demogState> getStateData(string stateName) { return allStateData[stateName]; }
-    shared_ptr<psCombo> getStatePoliceData(string stateName) { return allStatePoliceData[stateName]; }
+
+    template<typename Getter>
+    vector<shared_ptr<State>> genericDemogMaxN(Getter getter, unsigned long n = 1) {
+        // sort the list
+        sort(allStates.begin(), allStates.end(), createDemogComparator<Getter>(getter));
+
+        // copy first n elements
+        auto end = next(allStates.begin(), min(n, allStates.size()));
+        return {allStates.begin(), end};
+    }
+
+    template<typename Getter>
+    vector<shared_ptr<State>> genericPSMaxN(Getter getter, unsigned long n = 1) {
+        // sort the list
+        sort(allStates.begin(), allStates.end(), createPSComparator<Getter>(getter));
+
+        // copy first n elements
+        auto end = next(allStates.begin(), min(n, allStates.size()));
+        return {allStates.begin(), end};
+    }
+
 
     //must implement output per aggregate data
     friend std::ostream& operator<<(std::ostream &out, const dataAQ &allStateData);
 
     //core data private for dataAQ
     private:
-        vector<shared_ptr<demogState>> allStates;
-        vector<shared_ptr<psCombo>> allPSData;
-      map<std::string, shared_ptr<demogState> > AggregateStateData;
-      template <typename T, typename Getter>
-      static function<bool(pair<string, shared_ptr<T>>, pair<string, shared_ptr<T>>)> createGenericComparator(Getter getter) {
-          return [=] (const pair<string, shared_ptr<T>>& p1, const pair<string, shared_ptr<T>>& p2) -> bool {
-              return (p1.second.get()->*getter)() < (p2.second.get()->*getter)();
+        vector<shared_ptr<State>> allStates;
+        map<string, shared_ptr<State>> allStatesMap;
+
+      template <typename Getter>
+      static function<bool(shared_ptr<State>, shared_ptr<State>)> createDemogComparator(Getter getter) {
+          return [=] (const shared_ptr<State>& p1, const shared_ptr<State>& p2) -> bool {
+              return (p1->getDemoData().get()->*getter)() > (p2->getDemoData().get()->*getter)();
+          };
+      }
+      template <typename Getter>
+      static function<bool(shared_ptr<State>, shared_ptr<State>)> createPSComparator(Getter getter) {
+          return [=] (const shared_ptr<State>& p1, const shared_ptr<State>& p2) -> bool {
+              return (p1->getPSData().get()->*getter)() > (p2->getPSData().get()->*getter)();
           };
       }
 
-      static std::function<bool(pair<std::string, shared_ptr<demogState>>, pair<std::string, shared_ptr<demogState>>)> createComparator(demogState::getterFunc getter);
-
-      //std::map<string, shared_ptr<demogState>> allStateData;
-      std::map<string, shared_ptr<psCombo>> allStatePoliceData;
 };
 #endif

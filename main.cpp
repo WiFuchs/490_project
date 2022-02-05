@@ -63,22 +63,21 @@ int main() {
     colorMap[9] = color(235, 91, 101); //warm
     DataDraw drawer = DataDraw(600);
     auto stateData = theAnswers.getAllStateData();
-    auto psData = theAnswers.getAllPSData();
 
 
     // draw foreign born and homeowners on one plot
     double max_fb = theAnswers.mostForBorn()->getForeignBornP();
     double max_homeown = theAnswers.mostHomeowners()->getHomeownersP();
-    std::sort(stateData.begin(), stateData.end(), [](auto a, auto b) -> bool {
-        return a->getState() < b->getState();
+    std::sort(stateData.begin(), stateData.end(), [](shared_ptr<State> a, shared_ptr<State> b) -> bool {
+        return a->getName() < b->getName();
     });
-    drawer.addShapeForObject(stateData, function<shared_ptr<shape>(shared_ptr<demogState>, double)>([=](const shared_ptr<demogState>& state, double block_size) -> shared_ptr<shape> {
-                                 double scaled = state->getHomeownersP() / max_homeown;
+    drawer.addShapeForObject(stateData, function<shared_ptr<shape>(shared_ptr<State>, double)>([=](const shared_ptr<State>& state, double block_size) -> shared_ptr<shape> {
+                                 double scaled = state->getDemoData()->getHomeownersP() / max_homeown;
                                  double size = scaled * block_size / 2.0;
                                  return make_shared<ellipse>(0, 0, size, size, colorMap[round(scaled * 9)]);
                              }));
-    drawer.addShapeForObject(stateData, function<shared_ptr<shape>(shared_ptr<demogState>, double)>([=](const shared_ptr<demogState>& state, double block_size) -> shared_ptr<shape> {
-                double scaled = state->getForeignBornP() / max_fb;
+    drawer.addShapeForObject(stateData, function<shared_ptr<shape>(shared_ptr<State>, double)>([=](const shared_ptr<State>& state, double block_size) -> shared_ptr<shape> {
+                double scaled = state->getDemoData()->getForeignBornP() / max_fb;
                 double size = scaled * block_size / 2.0;
                 return make_shared<ellipse>(0, 0, size, size, colorMap[round(scaled * 9)]);
             }));
@@ -86,15 +85,15 @@ int main() {
     drawer.clearShapes();
 
     // draw police shooting data and median income on one plot
-    double max_income = theAnswers.maxQuery(&demogState::getMedianIncome)->getMedianIncome();
-    int max_incidents = theAnswers.maxPSQuery(&psCombo::getNumberOfCases)->getNumberOfCases();
-    drawer.addShapeForObject(stateData,function<shared_ptr<shape>(shared_ptr<demogState>, double)>([=](const shared_ptr<demogState>& state, double block_size) -> shared_ptr<shape> {
-                                 double scaled = state->getMedianIncome() / double(max_income);
+    double max_income = theAnswers.genericDemogMaxN(&demogState::getMedianIncome)[0]->getDemoData()->getMedianIncome();
+    int max_incidents = theAnswers.genericPSMaxN(&psCombo::getNumberOfCases)[0]->getPSData()->getNumberOfCases();
+    drawer.addShapeForObject(stateData,function<shared_ptr<shape>(shared_ptr<State>, double)>([=](const shared_ptr<State>& state, double block_size) -> shared_ptr<shape> {
+                                 double scaled = state->getDemoData()->getMedianIncome() / double(max_income);
                                  double size = scaled * block_size / 2.0;
                                  return make_shared<ellipse>(0, 0, size, size, colorMap[round(scaled * 9)]);
                              }));
-    drawer.addShapeForObject(psData,function<shared_ptr<shape>(shared_ptr<psCombo>, double)>([=](const shared_ptr<psCombo>& state, double block_size) -> shared_ptr<shape> {
-                                 double scaled = state->getNumberOfCases() / double(max_incidents);
+    drawer.addShapeForObject(stateData,function<shared_ptr<shape>(shared_ptr<State>, double)>([=](const shared_ptr<State>& state, double block_size) -> shared_ptr<shape> {
+                                 double scaled = state->getPSData()->getNumberOfCases() / double(max_incidents);
                                  double size = scaled * block_size / 2.0;
                                  return make_shared<ellipse>(0, 0, size, size, colorMap[round(scaled * 9)]);
                              }));

@@ -10,7 +10,7 @@
 
 dataAQ::dataAQ() {}
 
-void dataAQ::createStatePoliceData(std::vector<shared_ptr<psData>> theData){
+void dataAQ::createStatePoliceData(const std::vector<shared_ptr<psData>>& theData){
     map<std::string, vector< shared_ptr<psData> > > StateGroups;
     for (const auto &obj : theData) {
         psData shooting = *obj;
@@ -18,7 +18,7 @@ void dataAQ::createStatePoliceData(std::vector<shared_ptr<psData>> theData){
         StateGroups[shootingState].push_back(make_shared<psData>(shooting));
     }
 
-    for (auto entry : StateGroups) {
+    for (const auto& entry : StateGroups) {
         string state = entry.first;
         int signsMentalIllness = 0;
         int unArmedCount = 0;
@@ -53,8 +53,14 @@ void dataAQ::createStatePoliceData(std::vector<shared_ptr<psData>> theData){
         Ethnicity eth = Ethnicity(WhiteNH, Black, FirstNation, Asian, Latinx, Unspecified, cases);
         cout << state << ": " << cases << eth << endl;
         shared_ptr<psCombo> psC = make_shared<psCombo>(state, signsMentalIllness, unArmedCount, armedToy, bodyCam, cases, state, eth); //for p2 return state for region
-        allStatePoliceData[state] = psC;
-        allPSData.push_back(psC);
+
+        shared_ptr<State> curState = getStateData(state);
+        if (curState == nullptr) {
+            curState = make_shared<State>(state);
+            allStatesMap[state] = curState;
+            allStates.push_back(curState);
+        }
+        curState->setPSData(psC);
     }
 
     StateGroups.clear();
@@ -66,31 +72,24 @@ void dataAQ::createStatePoliceData(std::vector<shared_ptr<psData>> theData){
 
 //sort and report the top ten states in terms of number of police shootings
 void dataAQ::reportTopTenStatesPS(){
-    //FILL in
-    //sort the data
+//    //sort the data
+//    std::sort(allStates.begin(), allStates.end(), [](const shared_ptr<State>& ps1, const shared_ptr<State>& ps2) -> bool {
+//        return ps1->getPSData()->getNumberOfCases() > ps2->getPSData()->getNumberOfCases(); });
 
-    vector<shared_ptr<psCombo>> allPSData;
-    for( auto it = allStatePoliceData.begin(); it != allStatePoliceData.end(); it++){
-        allPSData.push_back(it->second);}
-
-    std::sort(allPSData.begin(), allPSData.end(), [](auto ps1, auto ps2) -> bool {
-        return ps1->getNumberOfCases() > ps2->getNumberOfCases(); });
+    vector<shared_ptr<State>> top10PSStates = genericPSMaxN(&psCombo::getNumberOfCases, 10);
 
     cout << "Top ten states sorted on number police shootings & the associated census data: " << endl;
     //print the mini report data
-    int i = 0;
-    for (const auto &obj : allPSData ) {
+    for (const auto &state : top10PSStates ) {
+        shared_ptr<psCombo> obj = state->getPSData();
         cout << *obj << endl; //state string
-        shared_ptr<demogState> state = this->getStateData(obj->getRegion()); // get a pointer to the relevant state
+        shared_ptr<demogState> demoState = state->getDemoData(); // get a pointer to the relevant state
 
-        cout << "Total population: " << state->getTotalPopulation2020()  << " Percentage home ownership: " << state->getHomeownersP() << endl;
+        cout << "Total population: " << demoState->getTotalPopulation2020()  << " Percentage home ownership: " << demoState->getHomeownersP() << endl;
         cout.precision(12);
-        double percentPop = (obj->getNumberOfCases() / double(state->getTotalPopulation2020())) * 100;
+        double percentPop = (obj->getNumberOfCases() / double(demoState->getTotalPopulation2020())) * 100;
         cout << "Police shooting incidents: " << obj->getNumberOfCases() << " Percent of population: " << percentPop << endl;
         cout.precision(2);
-        i++;
-        if (i > 9)
-            break;
     }
 
     //print the full report data
@@ -99,15 +98,6 @@ void dataAQ::reportTopTenStatesPS(){
 }
 
 
-//string dataAQ::youngestPop() {
-//    auto youngestPopComparator = createComparator(&demogState::getPopUnder5P);
-//    shared_ptr<demogState> youngestPopState = max_element(AggregateStateData.begin(), AggregateStateData.end(), youngestPopComparator)->second;
-//    return youngestPopState->getState();
-//}
-
-bool bachelorsComparator (const pair<string, shared_ptr<demogState>>& p1, const pair<string, shared_ptr<demogState>>& p2) {
-    return (p1.second->getBachelorsDegree() < p2.second->getBachelorsDegree());
-}
 
 void dataAQ::reportBottomTenStatesHomeOwn(){
     //FILL in
@@ -116,7 +106,7 @@ void dataAQ::reportBottomTenStatesHomeOwn(){
 
 /* necessary function to aggregate the data - this CAN and SHOULD vary per
    student - depends on how they map, etc. */
-void dataAQ::createStateData(std::vector<shared_ptr<demogData>> theData) {
+void dataAQ::createStateData(const std::vector<shared_ptr<demogData>>& theData) {
   //groups counties into groups based on state
   map<std::string, vector< shared_ptr<demogData> > > CountyGroupings;
 
@@ -127,7 +117,7 @@ void dataAQ::createStateData(std::vector<shared_ptr<demogData>> theData) {
   }
 
   //creates a map of State object which are aggregates of counties in that state
-  for (auto entry : CountyGroupings) {
+  for (const auto& entry : CountyGroupings) {
     string state = entry.first;
 
     int whiteAlone = 0;
@@ -153,12 +143,12 @@ void dataAQ::createStateData(std::vector<shared_ptr<demogData>> theData) {
     int stateTotalPop2020 = 0;
     int counties = 0;
 
-    for (auto elem : entry.second) {
+    for (const auto& elem : entry.second) {
       whiteAlone += elem->getEthnicity().getWhiteAloneCount();
       blackAlone += elem->getEthnicity().getBlackAloneCount();
       aIndianANativeAlone += elem->getEthnicity().getAIndianANativeAloneCount();
       asianAlone += elem->getEthnicity().getAsianAloneCount();
-      hawaiianPIslanderAlone += elem->getEthnicity().getHawaiianPIslanderAlone();
+      hawaiianPIslanderAlone += elem->getEthnicity().getHawaiianPIslanderAloneCount();
       twoOrMore += elem->getEthnicity().getTwoOrMoreCount();
       hispanicOrLatino += elem->getEthnicity().getHispanicOrLatinoCount();
       whiteNotHispOrLat += elem->getEthnicity().getWhiteNotHispOrLatCount();
@@ -177,14 +167,10 @@ void dataAQ::createStateData(std::vector<shared_ptr<demogData>> theData) {
       females += elem->getFemalesCount();
       counties += 1;
 
-      int old_income = medianIncome;
       medianIncome += elem->getMedianIncome() * elem->getHousingUnits();
-      if (old_income > medianIncome) {
-          cout << "whoops: " << elem->getName() << ": " << elem->getHousingUnits() << " : " << elem->getMedianIncome() << endl;
-      }
       personsPerHouse += elem->getPersonsPerHouse();
     }
-    medianIncome = double(medianIncome) / double(housingUnits);  //aggregate of county level average income / # counties
+    medianIncome = medianIncome / double(housingUnits);  //aggregate of county level average income / # counties
     personsPerHouse = double(personsPerHouse) / double(housingUnits);
 
     Ethnicity e = Ethnicity(whiteAlone, blackAlone, aIndianANativeAlone,
@@ -195,64 +181,44 @@ void dataAQ::createStateData(std::vector<shared_ptr<demogData>> theData) {
                       popUnder5, stateTotalPop2020, e, medianIncome, homeowners,
                       personsPerHouse, veterans, highSchoolDegree,
                       bachelorsDegree, foreignBorn, housingUnits, females, counties);
-
-    AggregateStateData[state] = s;
-    //std::cout << *s << endl;
+    shared_ptr<State> curState = getStateData(state);
+    if (curState == nullptr) {
+        curState = make_shared<State>(state);
+        allStatesMap[state] = curState;
+        allStates.push_back(curState);
+    }
+    curState->setDemoData(s);
   }
 
-  for(auto & it : AggregateStateData){
-      allStates.push_back(it.second);
-  }
   CountyGroupings.clear(); //delete county groupings map
 }
 
 
-//TODO can these be simplified further into one max/min that takes in the getter and returns the max/min element from the state data collection?
 shared_ptr<demogState> dataAQ::youngestPop() {
-    return max_element(AggregateStateData.begin(), AggregateStateData.end(), createComparator(&demogState::getPopUnder5P))->second;
-
+    return genericDemogMaxN(&demogState::getPopUnder5P)[0]->getDemoData();
 }
 
 shared_ptr<demogState> dataAQ::mostHomeowners() {
-    return max_element(AggregateStateData.begin(), AggregateStateData.end(), createComparator(&demogState::getHomeownersP))->second;
+    return genericDemogMaxN(&demogState::getHomeownersP)[0]->getDemoData();
 
 }
 
 shared_ptr<demogState> dataAQ::mostFemales() {
-    return max_element(AggregateStateData.begin(), AggregateStateData.end(), createComparator(&demogState::getFemalesP))->second;
+    return genericDemogMaxN(&demogState::getFemalesP)[0]->getDemoData();
 
 }
 
 shared_ptr<demogState> dataAQ::mostVeterans() {
-    return max_element(AggregateStateData.begin(), AggregateStateData.end(), createComparator(&demogState::getVeteransP))->second;
+    return genericDemogMaxN(&demogState::getVeteransP)[0]->getDemoData();
 
-}
-
-shared_ptr<demogState> dataAQ::maxQuery(demogState::getterFunc getter) {
-    return max_element(AggregateStateData.begin(), AggregateStateData.end(), createComparator(getter))->second;
 }
 
 //return the name of the state with the largest population of foreign born people
 shared_ptr<demogState> dataAQ::mostForBorn() {
-    return max_element(AggregateStateData.begin(), AggregateStateData.end(), createComparator(&demogState::getForeignBornP))->second;
-}
-
-
-// helper function to return a comparator for any getter in our demogState class
-std::function<bool(const pair<std::string, shared_ptr<demogState>>, const pair<std::string, shared_ptr<demogState>>)> dataAQ::createComparator(demogState::getterFunc getter) {
-    return [=] (const pair<string, shared_ptr<demogState>>& p1, const pair<string, shared_ptr<demogState>>& p2) -> bool {
-        return (p1.second.get()->*getter)() < (p2.second.get()->*getter)();
-    };
-}
-
-
-//return the name of the state with the largest population under age 18
-shared_ptr<demogState> dataAQ::teenPop()  {
-    return max_element(AggregateStateData.begin(), AggregateStateData.end(), createComparator(&demogState::getPopUnder18P))->second;
+    return genericDemogMaxN(&demogState::getForeignBornP)[0]->getDemoData();
 }
 
 //return the name of the state with the largest population who did receive bachelors degree and up
 shared_ptr<demogState> dataAQ::collegeGrads() {
-    return max_element(AggregateStateData.begin(), AggregateStateData.end(), createComparator(&demogState::getBachelorsDegreeP))->second;
-
+    return genericDemogMaxN(&demogState::getBachelorsDegreeP)[0]->getDemoData();
 }
