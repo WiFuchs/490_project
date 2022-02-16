@@ -5,7 +5,7 @@
 #include <iostream>
 #include <vector>
 #include <map>
-#include "demogState.h"
+#include "demogCombo.h"
 #include "psData.h"
 #include "psCombo.h"
 #include "State.h"
@@ -23,29 +23,29 @@ class dataAQ {
     void createStatePoliceData(const std::vector<shared_ptr<psData>>& theData);
 
     //return the name of the state with the largest population under age 5
-    shared_ptr<demogState> youngestPop();
+    shared_ptr<demogCombo> youngestPop();
     //return the name of the state with the largest population under age 18
-    shared_ptr<demogState> teenPop();
+    shared_ptr<demogCombo> teenPop();
     //return the name of the state with the largest population over age 65
-    shared_ptr<demogState> wisePop();
+    shared_ptr<demogCombo> wisePop();
     //return the name of the state with the largest population who did not finish high school
-    shared_ptr<demogState> underServeHS();
+    shared_ptr<demogCombo> underServeHS();
     //return the name of the state with the largest population who completed college
-    shared_ptr<demogState> collegeGrads();
+    shared_ptr<demogCombo> collegeGrads();
     //return the name of the state with the largest population below the poverty line
-    shared_ptr<demogState> belowPoverty();
+    shared_ptr<demogCombo> belowPoverty();
     //return the name of the state with the largest population of foreign born people
-    shared_ptr<demogState> mostForBorn();
+    shared_ptr<demogCombo> mostForBorn();
     //return the name of the state with the fewest % homeowners
-    shared_ptr<demogState> mostHomeowners();
+    shared_ptr<demogCombo> mostHomeowners();
     //return the name of the state with the highest % females
-    shared_ptr<demogState> mostFemales();
+    shared_ptr<demogCombo> mostFemales();
     //return the name of the state with the highest % veterans
-    shared_ptr<demogState> mostVeterans();
+    shared_ptr<demogCombo> mostVeterans();
 
     vector<shared_ptr<State>> getAllStateData(){ return allStates; }
 
-    //getter given a state name return a pointer to demogState data
+    //getter given a state name return a pointer to demogCombo data
     shared_ptr<State> getStateData(string stateName) {/*fix this*/
 
       auto it = allStatesMap.find(stateName);

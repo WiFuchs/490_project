@@ -86,7 +86,7 @@ int main() {
     drawer.clearShapes();
 
     // draw police shooting data and median income on one plot
-    double max_income = theAnswers.genericDemogMaxN(&demogState::getMedianIncome)[0]->getDemoData()->getMedianIncome();
+    double max_income = theAnswers.genericDemogMaxN(&demogCombo::getMedianIncome)[0]->getDemoData()->getMedianIncome();
     int max_incidents = theAnswers.genericPSMaxN(&psCombo::getNumberOfCases)[0]->getPSData()->getNumberOfCases();
     drawer.addShapeForObject(stateData,function<shared_ptr<shape>(shared_ptr<State>, double)>([=](const shared_ptr<State>& state, double block_size) -> shared_ptr<shape> {
                                  double scaled = state->getDemoData()->getMedianIncome() / double(max_income);

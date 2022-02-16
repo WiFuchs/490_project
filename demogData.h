@@ -5,6 +5,7 @@
 #include<iostream>
 #include <math.h>
 #include "Ethnicity.h"
+#include "RegionData.h"
 
 using namespace std;
 
@@ -12,14 +13,14 @@ using namespace std;
   class to represent county demographic data
   from CORGIS - fill in with any data we agree as a class we want to include
 */
-class demogData {
+class demogData : public RegionData{
   public:
-    demogData(string inN, string inS, double in65, double in18,
+    demogData(string inN, double in65, double in18,
         double in5, int totPop20, Ethnicity ethnicity,
         double mIncome, double homeowners, double pph, double vet,
         double highSchool, double bachelors, double foreign, double hUnits,
-        double females) :
-            name(inN), state(inS), popOver65(in65), popUnder18(in18),
+        double females) : RegionData(),
+            name(inN), popOver65(in65), popUnder18(in18),
             popUnder5(in5), totalPopulation2020(totPop20),
             ethnicity(ethnicity), medianIncome(mIncome), homeowners(homeowners),
             personsPerHouse(pph), veterans(vet), highSchoolDegree(highSchool),
@@ -27,7 +28,6 @@ class demogData {
             housingUnits(hUnits), females(females) {}
 
     string getName() const { return name; }
-    string getState() const { return state; }
 
     Ethnicity getEthnicity() const { return ethnicity; }
 
@@ -85,7 +85,6 @@ class demogData {
 
 private:
     const string name;
-    const string state;
     const double popOver65;
     const double popUnder18;
     const double popUnder5;

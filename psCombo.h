@@ -3,12 +3,13 @@
 
 #include "psData.h"
 #include "Ethnicity.h"
+#include "RegionData.h"
 
 using namespace std;
 
-class psCombo {
+class psCombo : public RegionData {
 public:
-    psCombo(string inS, int mentalI, int unArmedC, int armedToy, int bodyC, int cases, string region, Ethnicity eth) :
+    psCombo(string inS, int mentalI, int unArmedC, int armedToy, int bodyC, int cases, string region, Ethnicity eth) : RegionData(),
                                                                                                         state(inS), numMentalI(mentalI), unArmedCount(unArmedC), armedToy(armedToy), numBodyCam(bodyC),
                                                                                                         numberOfCases(cases), region(region), raceEthnicity(eth) {} //add
     //complete these

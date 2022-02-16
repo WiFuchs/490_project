@@ -4,6 +4,7 @@
 #include <string>
 #include <iostream>
 #include <utility>
+#include "RegionData.h"
 
 using namespace std;
 
@@ -11,11 +12,11 @@ using namespace std;
   class to represent police shooting data
   from Washington Post
 */
-class psData {
+class psData : public RegionData {
 public:
     //add appropriate function paramaters to constructor once you add data
     psData(string inState, string city, string name, string eth, string mentalIll,
-           string armed, string bodyCam) : state(inState), city(city), name(name), ethnicity(eth),
+           string armed, string bodyCam) : RegionData(), state(inState), city(city), name(name), ethnicity(eth),
                                            signsMentalIllness(mentalIll), armed(armed), bodyCam(bodyCam)  {}
 
     string getState() const { return state; }

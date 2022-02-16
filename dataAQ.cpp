@@ -82,7 +82,7 @@ void dataAQ::reportTopTenStatesPS(){
     for (const auto &state : top10PSStates ) {
         shared_ptr<psCombo> obj = state->getPSData();
         cout << state->getName() << endl;
-        shared_ptr<demogState> demoState = state->getDemoData(); // get a pointer to the relevant state
+        shared_ptr<demogCombo> demoState = state->getDemoData(); // get a pointer to the relevant state
         cout << "Total population: " << demoState->getTotalPopulation2020()  << " Percentage home ownership: " << demoState->getHomeownersP() << endl;
         cout.precision(12);
         double percentPop = (obj->getNumberOfCases() / double(demoState->getTotalPopulation2020())) * 100;
@@ -104,14 +104,14 @@ void dataAQ::reportBottomTenStatesHomeOwn(){
     //    std::sort(allStates.begin(), allStates.end(), [](const shared_ptr<State>& ps1, const shared_ptr<State>& ps2) -> bool {
     //        return ps1->getPSData()->getNumberOfCases() > ps2->getPSData()->getNumberOfCases(); });
 
-    vector<shared_ptr<State>> bottom10Homeown = genericDemogMinN(&demogState::getHomeownersP, 10);
+    vector<shared_ptr<State>> bottom10Homeown = genericDemogMinN(&demogCombo::getHomeownersP, 10);
 
     cout << "Bottom ten states sorted on % homeownership & the associated census data: " << endl;
     //print the mini report data
     for (const auto &state : bottom10Homeown) {
         shared_ptr<psCombo> obj = state->getPSData();
         cout << state->getName() << endl;
-        shared_ptr<demogState> demoState = state->getDemoData(); // get a pointer to the relevant state
+        shared_ptr<demogCombo> demoState = state->getDemoData(); // get a pointer to the relevant state
         cout << "Total population: " << demoState->getTotalPopulation2020()  << " Percentage home ownership: " << demoState->getHomeownersP() << endl;
         cout.precision(12);
         double percentPop = (obj->getNumberOfCases() / double(demoState->getTotalPopulation2020())) * 100;
@@ -200,7 +200,7 @@ void dataAQ::createStateData(const std::vector<shared_ptr<demogData>>& theData) 
     Ethnicity e = Ethnicity(whiteAlone, blackAlone, aIndianANativeAlone,
                             asianAlone, hawaiianPIslanderAlone, twoOrMore,
                             hispanicOrLatino, whiteNotHispOrLat, stateTotalPop2020);
-    shared_ptr<demogState> s = make_shared<demogState>(state, popOver65, popUnder18,
+    shared_ptr<demogCombo> s = make_shared<demogCombo>(state, popOver65, popUnder18,
                       popUnder5, stateTotalPop2020, e, medianIncome, homeowners,
                       personsPerHouse, veterans, highSchoolDegree,
                       bachelorsDegree, foreignBorn, housingUnits, females, counties);
@@ -217,31 +217,31 @@ void dataAQ::createStateData(const std::vector<shared_ptr<demogData>>& theData) 
 }
 
 
-shared_ptr<demogState> dataAQ::youngestPop() {
-    return genericDemogMaxN(&demogState::getPopUnder5P)[0]->getDemoData();
+shared_ptr<demogCombo> dataAQ::youngestPop() {
+    return genericDemogMaxN(&demogCombo::getPopUnder5P)[0]->getDemoData();
 }
 
-shared_ptr<demogState> dataAQ::mostHomeowners() {
-    return genericDemogMaxN(&demogState::getHomeownersP)[0]->getDemoData();
-
-}
-
-shared_ptr<demogState> dataAQ::mostFemales() {
-    return genericDemogMaxN(&demogState::getFemalesP)[0]->getDemoData();
+shared_ptr<demogCombo> dataAQ::mostHomeowners() {
+    return genericDemogMaxN(&demogCombo::getHomeownersP)[0]->getDemoData();
 
 }
 
-shared_ptr<demogState> dataAQ::mostVeterans() {
-    return genericDemogMaxN(&demogState::getVeteransP)[0]->getDemoData();
+shared_ptr<demogCombo> dataAQ::mostFemales() {
+    return genericDemogMaxN(&demogCombo::getFemalesP)[0]->getDemoData();
+
+}
+
+shared_ptr<demogCombo> dataAQ::mostVeterans() {
+    return genericDemogMaxN(&demogCombo::getVeteransP)[0]->getDemoData();
 
 }
 
 //return the name of the state with the largest population of foreign born people
-shared_ptr<demogState> dataAQ::mostForBorn() {
-    return genericDemogMaxN(&demogState::getForeignBornP)[0]->getDemoData();
+shared_ptr<demogCombo> dataAQ::mostForBorn() {
+    return genericDemogMaxN(&demogCombo::getForeignBornP)[0]->getDemoData();
 }
 
 //return the name of the state with the largest population who did receive bachelors degree and up
-shared_ptr<demogState> dataAQ::collegeGrads() {
-    return genericDemogMaxN(&demogState::getBachelorsDegreeP)[0]->getDemoData();
+shared_ptr<demogCombo> dataAQ::collegeGrads() {
+    return genericDemogMaxN(&demogCombo::getBachelorsDegreeP)[0]->getDemoData();
 }
