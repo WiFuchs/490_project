@@ -80,8 +80,13 @@ class demogData : public RegionData{
     int getFemalesCount() const {
       double count = totalPopulation2020 * females;
       return round(count);}
+    double getAvgPersonsPerHouse() const {return totalPopulation2020 / housingUnits; }
 
    friend std::ostream& operator<<(std::ostream &out, const demogData &DD);
+
+   void accept(class Visitor &v) override {
+       v.visit(*this);
+   }
 
 private:
     const string name;

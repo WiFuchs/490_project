@@ -6,16 +6,19 @@
 #define INC_490_PROJECT_REGIONDATA_H
 
 #include <string>
-#include <vector>
+#include <set>
+#include "Visitor.h"
+
 
 class RegionData {
 public:
     std::string getName() {return name;}
-    std::vector<std::string> getStates() {return states;}
+    std::set<std::string> getStates() {return states;}
     int getPopulation() {return population;}
+    virtual void accept(class Visitor &v) = 0;
 private:
     std::string name;
-    std::vector<std::string> states;
+    std::set<std::string> states;
     int population;
 };
 

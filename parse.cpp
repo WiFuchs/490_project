@@ -101,7 +101,7 @@ shared_ptr<demogData> readCSVLineDemog(std::string theLine) {
     Ethnicity ethnicity = Ethnicity(White * totalPop2020, Black * totalPop2020, FirstNation * totalPop2020, Asian * totalPop2020, HIPacificIsle * totalPop2020,
                                     MultiRace * totalPop2020, Latinx * totalPop2020, WhiteNH * totalPop2020, totalPop2020);
 
-    return make_shared<demogData>(name, state, popOver65, popUnder18, popUnder5, totalPop2020,
+    return make_shared<demogData>(name, popOver65, popUnder18, popUnder5, totalPop2020,
                                   ethnicity, houseIncome, homeOwnRate, avgPerPerHouse, veterans,
                                           highSchoolUp, bachelorDegreeUp, foreignBorn, numHouseHold,
                                           popFemale);
@@ -143,9 +143,9 @@ shared_ptr<psData> readCSVLinePolice(std::string theLine) {
 
 //read from a CSV file (for a given data type) return a vector of the data
 // DO NOT modify
-std::vector<shared_ptr<demogData>> read_csv(std::string filename, typeFlag fileType) {
+std::vector<shared_ptr<RegionData>> read_csv(const std::string& filename, typeFlag fileType) {
     //the actual data
-    std::vector<shared_ptr<demogData>> theData;
+    std::vector<shared_ptr<RegionData>> theData;
 
     // Create an input filestream
     std::ifstream myFile(filename);
@@ -158,55 +158,18 @@ std::vector<shared_ptr<demogData>> read_csv(std::string filename, typeFlag fileT
     if(myFile.good()) {
         consumeColumnNames(myFile);
 
-        // Helper vars
         std::string line;
 
         // Now read data, line by line and create demographic dataobject
         while(std::getline(myFile, line)) {
             if (fileType == DEMOG) {
                 theData.push_back(readCSVLineDemog(line));
-            } else {
-                cout << "ERROR - unknown file type" << endl;
-                exit(0);
-            }
-        }
-
-        // Close file
-        myFile.close();
-    }
-
-    return theData;
-}
-
-
-// Reads a CSV file
-std::vector<shared_ptr<psData>> read_csvPolice(std::string filename, typeFlag fileType) {
-    //the actual data
-    std::vector<shared_ptr<psData> > theData;
-
-    // Create an input filestream
-    std::ifstream myFile(filename);
-
-    // Make sure the file is open
-    if(!myFile.is_open()) {
-        throw std::runtime_error("Could not open file");
-    }
-
-    if(myFile.good()) {
-        consumeColumnNames(myFile);
-
-        // Helper vars
-        std::string line;
-
-        // Now read data, line by line and create a county info object
-        while(std::getline(myFile, line)) {
-            if (fileType == POLICE) {
+            } else if (fileType == POLICE) {
                 theData.push_back(readCSVLinePolice(line));
             } else {
                 cout << "ERROR - unknown file type" << endl;
                 exit(0);
             }
-
         }
 
         // Close file

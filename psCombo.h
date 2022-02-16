@@ -5,6 +5,7 @@
 #include "Ethnicity.h"
 #include "RegionData.h"
 
+
 using namespace std;
 
 class psCombo : public RegionData {
@@ -32,6 +33,10 @@ public:
     double getRealUnarmedP() const { return (double(unArmedCount + armedToy) / double(numberOfCases)) * 100; }
 
     friend std::ostream& operator<<(std::ostream &out, const psCombo& PD);
+
+    void accept(class Visitor &v) override {
+        v.visit(*this);
+    }
 
 protected:
     const string state;

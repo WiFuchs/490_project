@@ -14,7 +14,7 @@
   inheritence later - FILL IN
 */
 
-class demogCombo : public demogData, public RegionData {
+class demogCombo : public demogData {
   public:
 //TODO fix the constructor calls in other files to instantiate as percents, not counts!!
       using getterFunc = double (demogCombo::*)() const;
@@ -22,7 +22,7 @@ class demogCombo : public demogData, public RegionData {
        double in5, int totPop20, Ethnicity ethnicity,
        double mIncome, double homeowners, double pph, double vet,
        double highSchool, double bachelors, double foreign, double hUnits,
-       double females, int counties) : demogData(inS, in65, in18, in5, totPop20, ethnicity, mIncome, homeowners, pph, vet, highSchool, bachelors, foreign, hUnits, females), RegionData(),
+       double females, int counties) : demogData(inS, in65, in18, in5, totPop20, ethnicity, mIncome, homeowners, pph, vet, highSchool, bachelors, foreign, hUnits, females),
            counties(counties) {}
 
 

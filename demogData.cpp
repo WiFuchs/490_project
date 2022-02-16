@@ -7,7 +7,7 @@
 /* print county demographic data */
 /* fill in any other data to make printing easy  */
 std::ostream& operator<<(std::ostream &out, const demogData &DD) {
-    out << "County Demographics Info: " << DD.getName() << ", " << DD.getState();
+    out << "County Demographics Info: " << DD.getName();
     out << std::setprecision(2) << std::fixed;
     out << " total population: " << DD.getTotalPopulation2020();
 

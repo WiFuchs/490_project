@@ -6,6 +6,7 @@
 #include <utility>
 #include "RegionData.h"
 
+
 using namespace std;
 
 /*
@@ -29,6 +30,10 @@ public:
     string getSignsMentalIllness() const { return signsMentalIllness; }
     string getArmed() const { return armed; }
     string getBodyCam() const { return bodyCam; }
+
+    void accept(class Visitor &v) override {
+        v.visit(*this);
+    }
 
     friend std::ostream& operator<<(std::ostream &out, const psData &PD);
 
