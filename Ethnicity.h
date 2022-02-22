@@ -70,17 +70,34 @@ class Ethnicity {
 
     friend std::ostream& operator<<(std::ostream &out, const Ethnicity &E);
 
+    Ethnicity& operator+=(const Ethnicity& e) {
+        whiteAlone += e.whiteAlone;
+        blackAlone += e.blackAlone;
+        aIndianANativeAlone += e.aIndianANativeAlone;
+        asianAlone += e.asianAlone;
+        hawaiianPIslanderAlone += e.hawaiianPIslanderAlone;
+        twoOrMore += e.twoOrMore;
+        unspecified += e.unspecified;
+        hispanicOrLatino += e.hispanicOrLatino;
+        whiteNotHispOrLat += e.whiteNotHispOrLat;
+        totalPopulation2020 += e.totalPopulation2020;
+        return *this;
+    }
+
+
+
+
   private:
-      const double whiteAlone;
-      const double blackAlone;
-      const double aIndianANativeAlone;
-      const double asianAlone;
-      const double hawaiianPIslanderAlone;
-      const double twoOrMore;
-      const double unspecified;
-      const double hispanicOrLatino;
-      const double whiteNotHispOrLat;
-      const int totalPopulation2020;
+      double whiteAlone;
+      double blackAlone;
+      double aIndianANativeAlone;
+      double asianAlone;
+      double hawaiianPIslanderAlone;
+      double twoOrMore;
+      double unspecified;
+      double hispanicOrLatino;
+      double whiteNotHispOrLat;
+      int totalPopulation2020;
 
 };
 #endif

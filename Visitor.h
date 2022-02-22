@@ -7,9 +7,9 @@
 
 class Visitor {
 public:
-    virtual void visit(class psCombo &data) = 0;
-    virtual void visit(class psData &data) = 0;
-    virtual void visit(class demogData &data) = 0;
+    virtual void visit(shared_ptr<psCombo> data) = 0;
+    virtual void visit(shared_ptr<psData> data) = 0;
+    virtual void visit(shared_ptr<demogData> data) = 0;
 };
 
 

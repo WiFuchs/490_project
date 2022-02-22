@@ -12,13 +12,13 @@
 
 class visitorReport : public Visitor {
 public:
-    void visit(class psCombo &data) {
+    void visit(shared_ptr<psCombo> data) {
         cout << "visited: " << data.getName() << ": " << data.getNumberOfCases();
     }
-    void visit(class psData &data) {
+    void visit(shared_ptr<psData> data) {
         cout << "visited: " << data.getArmed();
     }
-    void visit(class demogData &data) {
+    void visit(shared_ptr<demogData> data) {
         cout << "visited: " << data.getName() << ": " << data.getPopOver65();
     }
 };
