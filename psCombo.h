@@ -39,10 +39,10 @@ public:
     }
 
     psCombo& operator+=(const psData& elem) {
-        if (elem->getSignsMentalIllness() == "TRUE"){numMentalI += 1;}
-        if (elem->getArmed() == "unarmed" or elem->getArmed() == "" or elem->getArmed() == "undetermined"){unArmedCount += 1;}
-        if (elem->getArmed().find("toy") != string::npos){armedToy += 1;}
-        if (elem->getBodyCam() == "TRUE"){numBodyCam += 1;}
+        if (elem.getSignsMentalIllness() == "TRUE"){numMentalI += 1;}
+        if (elem.getArmed() == "unarmed" or elem.getArmed() == "" or elem.getArmed() == "undetermined"){unArmedCount += 1;}
+        if (elem.getArmed().find("toy") != string::npos){armedToy += 1;}
+        if (elem.getBodyCam() == "TRUE"){numBodyCam += 1;}
 
         int Asian = 0;
         int Latinx = 0;
@@ -51,12 +51,12 @@ public:
         int FirstNation = 0;
         int Unspecified = 0;
 
-        if (elem->getEthnicity() == "A"){Asian += 1;}
-        if (elem->getEthnicity() == "H"){Latinx += 1;}
-        if (elem->getEthnicity() == "B"){Black += 1;}
-        if (elem->getEthnicity() == "W"){WhiteNH += 1;}
-        if (elem->getEthnicity() == "N"){FirstNation += 1;}
-        if (elem->getEthnicity() == "O" or elem->getEthnicity() == ""){ Unspecified += 1;}
+        if (elem.getEthnicity() == "A"){Asian += 1;}
+        if (elem.getEthnicity() == "H"){Latinx += 1;}
+        if (elem.getEthnicity() == "B"){Black += 1;}
+        if (elem.getEthnicity() == "W"){WhiteNH += 1;}
+        if (elem.getEthnicity() == "N"){FirstNation += 1;}
+        if (elem.getEthnicity() == "O" or elem.getEthnicity() == ""){ Unspecified += 1;}
         raceEthnicity += Ethnicity(WhiteNH, Black, FirstNation, Asian, Latinx, Unspecified, 1);
 
         return *this;

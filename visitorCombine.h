@@ -18,7 +18,7 @@ public:
     std::map<string, shared_ptr<demogCombo> >& getComboDemog() {return comboDemog;}
     std::map<string, shared_ptr<psCombo> > & getComboPolice() {return comboPolice;}
 
-private:
+protected:
     std::map<string, shared_ptr<psCombo> > comboPolice;
     std::map<string, shared_ptr<demogCombo> > comboDemog;
 };

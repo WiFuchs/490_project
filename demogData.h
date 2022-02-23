@@ -15,12 +15,12 @@ using namespace std;
 */
 class demogData : public RegionData{
   public:
-    demogData(string inN, double in65, double in18,
+    demogData(string inN, string inS, double in65, double in18,
         double in5, int totPop20, Ethnicity ethnicity,
         double mIncome, double homeowners, double pph, double vet,
-        double highSchool, double bachelors, double foreign, double hUnits,
+        double highSchool, double bachelors, double foreign, int hUnits,
         double females) : RegionData(),
-            name(inN), popOver65(in65), popUnder18(in18),
+            name(inN), state(inS), popOver65(in65), popUnder18(in18),
             popUnder5(in5), totalPopulation2020(totPop20),
             ethnicity(ethnicity), medianIncome(mIncome), homeowners(homeowners),
             personsPerHouse(pph), veterans(vet), highSchoolDegree(highSchool),
@@ -62,9 +62,9 @@ class demogData : public RegionData{
     int getHomeownersCount() const {
       double count = totalPopulation2020 * homeowners;
       return round(count); }
-
+    string getState() const { return state; }
     double getPersonsPerHouse() const { return personsPerHouse; }
-    double getHousingUnits() const { return housingUnits; }
+    int getHousingUnits() const { return housingUnits; }
 
     //Miscellaneous Info
     double getForeignBorn() const { return foreignBorn; }
@@ -88,23 +88,24 @@ class demogData : public RegionData{
        v.visit(*this);
    }
 
-private:
+protected:
     const string name;
-    const double popOver65;
-    const double popUnder18;
-    const double popUnder5;
-    const int totalPopulation2020;
+    const string state;
+    double popOver65;
+    double popUnder18;
+    double popUnder5;
+    int totalPopulation2020;
 
-    const Ethnicity ethnicity;
-    const double medianIncome;
-    const double homeowners;
-    const double personsPerHouse;
-    const double veterans;
-    const double highSchoolDegree;
-    const double bachelorsDegree;
-    const double foreignBorn;
-    const double housingUnits;
-    const double females;
+    Ethnicity ethnicity;
+    double medianIncome;
+    double homeowners;
+    double personsPerHouse;
+    double veterans;
+    double highSchoolDegree;
+    double bachelorsDegree;
+    double foreignBorn;
+    int housingUnits;
+    double females;
 
 };
 #endif

@@ -101,7 +101,7 @@ shared_ptr<demogData> readCSVLineDemog(std::string theLine) {
     Ethnicity ethnicity = Ethnicity(White * totalPop2020, Black * totalPop2020, FirstNation * totalPop2020, Asian * totalPop2020, HIPacificIsle * totalPop2020,
                                     MultiRace * totalPop2020, Latinx * totalPop2020, WhiteNH * totalPop2020, totalPop2020);
 
-    return make_shared<demogData>(name, popOver65, popUnder18, popUnder5, totalPop2020,
+    return make_shared<demogData>(name, state, popOver65, popUnder18, popUnder5, totalPop2020,
                                   ethnicity, houseIncome, homeOwnRate, avgPerPerHouse, veterans,
                                           highSchoolUp, bachelorDegreeUp, foreignBorn, numHouseHold,
                                           popFemale);

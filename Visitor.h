@@ -5,6 +5,10 @@
 #ifndef INC_490_PROJECT_VISITOR_H
 #define INC_490_PROJECT_VISITOR_H
 
+#include "psCombo.h"
+#include "psData.h"
+#include "demogData.h"
+
 class Visitor {
 public:
     virtual void visit(shared_ptr<psCombo> data) = 0;

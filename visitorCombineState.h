@@ -7,6 +7,9 @@
 #include "visitorCombine.h"
 
 class visitorCombineState : public visitorCombine {
+    void visit(shared_ptr<psCombo> data) override;
+    void visit(shared_ptr<psData> data) override;
+    void visit(shared_ptr<demogData> data) override;
 };
 
 
