@@ -5,7 +5,7 @@
 #include "demogCombo.h"
 #include "psCombo.h"
 
-#include "visitor.h"
+#include "Visitor.h"
 #include "stats.h"
 
 /* wrapper for some useful functions to report necessary data */

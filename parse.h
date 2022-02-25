@@ -9,6 +9,8 @@
 #include <sstream> // std::stringstream
 #include "regionData.h"
 
+using namespace std;
+
 /*static functions to help parse CSV data */
 
 /* For future assignments when we read different types of data */

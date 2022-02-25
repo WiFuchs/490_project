@@ -59,6 +59,8 @@ class demogCombo : public demogData {
        personsPerHouse = (personsPerHouse * getTotalPopulation2020() + b.getPersonsPerHouse() * b.getTotalPopulation2020()) / totalPop;
        housingUnits = housingUnits + b.getHousingUnits();
        ethnicity += b.getEthnicity();
+
+       return *this;
    }
 
   friend std::ostream& operator<<(std::ostream &out, const demogCombo &SD);

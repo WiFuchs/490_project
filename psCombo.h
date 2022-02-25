@@ -36,13 +36,13 @@ public:
 
     friend std::ostream& operator<<(std::ostream &out, const psCombo& PD);
 
-//    void accept(class Visitor &v) override {
-//        v.visit(shared_from_this());
-//    }
+    void accept(class Visitor &v) override {
+        v.visit(shared_from_this());
+    }
 
     psCombo& operator+=(const psData &elem) {
         if (elem.getSignsMentalIllness() == "TRUE"){numMentalI += 1;}
-        if (elem.getArmed() == "unarmed" or elem.getArmed() == "" or elem.getArmed() == "undetermined"){unArmedCount += 1;}
+        if (elem.getArmed() == "unarmed" or elem.getArmed().empty() or elem.getArmed() == "undetermined"){unArmedCount += 1;}
         if (elem.getArmed().find("toy") != string::npos){armedToy += 1;}
         if (elem.getBodyCam() == "TRUE"){numBodyCam += 1;}
 
@@ -58,7 +58,7 @@ public:
         if (elem.getEthnicity() == "B"){Black += 1;}
         if (elem.getEthnicity() == "W"){WhiteNH += 1;}
         if (elem.getEthnicity() == "N"){FirstNation += 1;}
-        if (elem.getEthnicity() == "O" or elem.getEthnicity() == ""){ Unspecified += 1;}
+        if (elem.getEthnicity() == "O" or elem.getEthnicity().empty()){ Unspecified += 1;}
         raceEthnicity += Ethnicity(WhiteNH, Black, FirstNation, Asian, Latinx, Unspecified, 1);
 
         return *this;

@@ -61,7 +61,7 @@ public:
 
           string cityKey = city+state;
 
-          cityToCounty[cityKey] = countyID{county, std::stoi(countyfips)};
+          cityToCounty[cityKey] = std::stoi(countyfips);
 
           //cout << "line: " << line << endl;
           //cout << "pair (city, county): " << city << ", " << county << " state " << state << " fip" << countyfips <<  endl;
@@ -76,7 +76,7 @@ public:
     private:
         //only inherited data at this point
         //helper map to create aggregates from city -> county
-        std::map<string, countyID> cityToCounty;
+        std::map<string, int> cityToCounty;
 };
 
 #endif
