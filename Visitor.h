@@ -1,20 +1,15 @@
-//
-// Created by Will Fuchs on 2/15/22.
-//
+#ifndef VISITOR_H
+#define VISITOR_H
 
-#ifndef INC_490_PROJECT_VISITOR_H
-#define INC_490_PROJECT_VISITOR_H
-
-#include "psCombo.h"
 #include "psData.h"
+#include "psCombo.h"
 #include "demogData.h"
 
+/* a visitor can visit any of my specific data types */
 class Visitor {
-public:
-    virtual void visit(shared_ptr<psCombo> data) = 0;
-    virtual void visit(shared_ptr<psData> data) = 0;
-    virtual void visit(shared_ptr<demogData> data) = 0;
+  public:
+    virtual void visit(shared_ptr<psData> ps) = 0;
+    virtual void visit(shared_ptr<demogData> d) = 0;
 };
+#endif
 
-
-#endif//INC_490_PROJECT_VISITOR_H

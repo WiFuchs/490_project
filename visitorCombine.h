@@ -1,27 +1,47 @@
-//
-// Created by Will Fuchs on 2/16/22.
-//
+#ifndef VCOMBO_H
+#define VCOMBO_H
 
-#ifndef INC_490_PROJECT_VISITORCOMBINE_H
-#define INC_490_PROJECT_VISITORCOMBINE_H
-
-#include <map>
-#include "Visitor.h"
-#include "demogCombo.h"
+#include "psData.h"
 #include "psCombo.h"
-using namespace std;
+#include "demogData.h"
+#include "demogCombo.h"
+#include "visitor.h"
+#include <memory>
+#include <map>
 
-class visitorCombine : public Visitor{
+//The shared combo data
+class visitorCombine : public Visitor {
 public:
-    shared_ptr<demogCombo> getComboDemogData(string regionName) {return comboDemog.find(regionName)->second;}
-    shared_ptr<psCombo> getComboPoliceData(string regionName)  {return comboPolice.find(regionName)->second;}
-    std::map<string, shared_ptr<demogCombo> >& getComboDemog() {return comboDemog;}
-    std::map<string, shared_ptr<psCombo> > & getComboPolice() {return comboPolice;}
+    visitorCombine() {}
 
-protected:
-    std::map<string, shared_ptr<psCombo> > comboPolice;
-    std::map<string, shared_ptr<demogCombo> > comboDemog;
+    //just a helper to print out various fields
+    void printNCombo(int n) {
+        int i=0;
+        cout << "All Combo data: " << endl;
+        for (auto entry : allComboDemogData) {
+            if (i < n) {
+              cout << "name: " << entry.first << endl;
+              //cout << "d: " << ((entry.second).get()->*f1)() << endl;
+              cout << *(entry.second).get() << endl;
+              if (allComboPoliceData.count(entry.first)> 0) {
+                //cout << "ps: " << (allComboPoliceData[entry.first].get()->*f2)() << endl;
+                cout << *(allComboPoliceData[entry.first].get()) << endl;
+              }
+            }
+            i++;
+        }
+    }
+
+    shared_ptr<demogCombo> getComboDemogData(string regionName) { return allComboDemogData[regionName]; }
+    shared_ptr<psCombo> getComboPoliceData(string regionName) { return allComboPoliceData[regionName]; }
+
+	std::map<string, shared_ptr<demogCombo> >& getComboDemog()  { return allComboDemogData; }
+    std::map<string, shared_ptr<psCombo> > & getComboPolice() { return allComboPoliceData; }
+
+    protected:
+    	//combo maps
+       std::map<string, shared_ptr<demogCombo> > allComboDemogData;
+       std::map<string, shared_ptr<psCombo> > allComboPoliceData;
 };
 
-
-#endif//INC_490_PROJECT_VISITORCOMBINE_H
+#endif

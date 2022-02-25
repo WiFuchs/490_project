@@ -1,27 +1,24 @@
-//
-// Created by Will Fuchs on 2/16/22.
-//
+#ifndef VISITREP_H
+#define VISITREP_H
 
-#ifndef INC_490_PROJECT_VISITORREPORT_H
-#define INC_490_PROJECT_VISITORREPORT_H
-
-#include "Visitor.h"
-#include "psCombo.h"
 #include "psData.h"
 #include "demogData.h"
+#include "visitor.h"
 
 class visitorReport : public Visitor {
 public:
-    void visit(shared_ptr<psCombo> data) {
-        cout << "visited: " << data.getName() << ": " << data.getNumberOfCases();
+    visitorReport() : numVisited(0) {}
+
+    void visit(shared_ptr<demogData> e) {
+        //fill in
     }
-    void visit(shared_ptr<psData> data) {
-        cout << "visited: " << data.getArmed();
+    
+    void visit(shared_ptr<psData> e) {
+        //fill in
     }
-    void visit(shared_ptr<demogData> data) {
-        cout << "visited: " << data.getName() << ": " << data.getPopOver65();
-    }
+
+    private:
+    	int numVisited;
 };
 
-
-#endif//INC_490_PROJECT_VISITORREPORT_H
+#endif

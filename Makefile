@@ -1,21 +1,17 @@
 #CXX=clang++
 CXX=g++
 
-CXXFLAGS= -O3 -std=c++17
+CXXFLAGS= -g -std=c++14 
 
-BINARIES=dataProj testStates
+BINARIES=dataProj
 
 all: ${BINARIES}
 
-tests: ${BINARIES}
-	./testStates
 
-dataProj:  demogCombo.o demogData.o parse.o main.o Ethnicity.o psData.o psCombo.o DataDraw.o
+dataProj: statTool.o stats.o statTool.o demogCombo.o demogData.o raceDemogData.o psData.o psCombo.o parse.o main.o
 	${CXX} $^ -o $@
 
-testStates: testStates.o demogCombo.o demogData.o parse.o tddFuncs.o Ethnicity.o psData.o psCombo.o  DataDraw.o
 
-	${CXX} $^ -o $@
 
 clean:
-	/bin/rm -f ${BINARIES} *.o
+	/bin/rm -f ${BINARIES} *.o 

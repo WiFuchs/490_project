@@ -4,11 +4,13 @@
 #include "psData.h"
 #include "Ethnicity.h"
 #include "RegionData.h"
+#include "demogData.h"
+#include "visitor.h"
 
 
 using namespace std;
 
-class psCombo : public RegionData {
+class psCombo : public RegionData, public std::enable_shared_from_this<psCombo> {
 public:
     psCombo(string inS, int mentalI, int unArmedC, int armedToy, int bodyC, int cases, string region, Ethnicity eth) : RegionData(),
                                                                                                         state(inS), numMentalI(mentalI), unArmedCount(unArmedC), armedToy(armedToy), numBodyCam(bodyC),
@@ -35,10 +37,10 @@ public:
     friend std::ostream& operator<<(std::ostream &out, const psCombo& PD);
 
     void accept(class Visitor &v) override {
-        v.visit(*this);
+        v.visit(std::shared_from_this());
     }
 
-    psCombo& operator+=(const psData& elem) {
+    psCombo& operator+=(const psData &elem) {
         if (elem.getSignsMentalIllness() == "TRUE"){numMentalI += 1;}
         if (elem.getArmed() == "unarmed" or elem.getArmed() == "" or elem.getArmed() == "undetermined"){unArmedCount += 1;}
         if (elem.getArmed().find("toy") != string::npos){armedToy += 1;}

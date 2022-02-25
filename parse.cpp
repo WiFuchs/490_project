@@ -2,12 +2,14 @@
 #include "parse.h"
 #include <algorithm>
 #include <cmath>
+#include "demogData.h"
+#include "psData.h"
 
 /* helper to strip out quotes from a string */
 string stripQuotes(std::string temp) {
     temp.erase(
-            remove(temp.begin(), temp.end(), '\"' ),
-            temp.end());
+        remove(temp.begin(), temp.end(), '\"' ),
+        temp.end());
     return temp;
 }
 
@@ -47,105 +49,32 @@ void consumeColumnNames(std::ifstream &myFile) {
     // Read the column names (for debugging)
     // Extract each column name for debugging
     while(std::getline(ss, colname, ',')) {
-        //    std::cout << colname << std::endl;
+    //    std::cout << colname << std::endl;
     }
 }
 
 /* Read one line from a CSV file for county demographic data specifically */
-shared_ptr<demogData> readCSVLineDemog(std::string theLine) {
+shared_ptr<regionData> readCSVLineDemog(std::string theLine) {
     std::stringstream ss(theLine);
+    
+    //TODO fill in and fix constructor
 
-    string name = getField(ss);
-    string state = getField(ss);
-    double popOver65 = stod(getField(ss))/100.0;
-    double popUnder18 = stod(getField(ss))/100.0;
-    double popUnder5 = stod(getField(ss))/100.0;
-    double bachelorDegreeUp = stod(getField(ss))/100.0;
-    double highSchoolUp = stod(getField(ss))/100.0;
-    //skip 1
-    getField(ss);
-    //store initial data as percent (then convert to count)
-    double FirstNation= stod(getField(ss))/100.0;
-    double Asian= stod(getField(ss))/100.0;
-    double Black= stod(getField(ss))/100.0;
-    double Latinx= stod(getField(ss))/100.0;
-    double HIPacificIsle= stod(getField(ss))/100.0;
-    double MultiRace= stod(getField(ss))/100.0;
-    double White= stod(getField(ss))/100.0;
-    double WhiteNH = stod(getField(ss))/100.0;
-    float homeOwnRate = stod(getField(ss))/100.0;
-    int numHouseHold = stoi(getField(ss));
-    //skip 2
-    getField(ss);
-    getField(ss);
-    float avgPerPerHouse = stod(getField(ss));
-    //turn into mathematical percent
-    long int houseIncome = stoi(getField(ss));
-    //skip 1
-    getField(ss);
-    double foreignBorn= stod(getField(ss))/100.0;
-    //skip 5
-    for (int i=0; i < 5; i++)
-        getField(ss);
-    double popFemale = stod(getField(ss))/100.0;
-    int veterans = stoi(getField(ss));
-    int totalPop2020 = stoi(getField(ss));
-
-    //community racial mix created with counts not percents
-    /*TO DO construct your type for race/ethnicity info */
-
+    //now skip over
     //store demographic data as counts
-    /*TO DO fix to construct your type */
-    //return make_shared<demogData>(.....);
-
-    Ethnicity ethnicity = Ethnicity(White * totalPop2020, Black * totalPop2020, FirstNation * totalPop2020, Asian * totalPop2020, HIPacificIsle * totalPop2020,
-                                    MultiRace * totalPop2020, Latinx * totalPop2020, WhiteNH * totalPop2020, totalPop2020);
-
-    return make_shared<demogData>(name, state, popOver65, popUnder18, popUnder5, totalPop2020,
-                                  ethnicity, houseIncome, homeOwnRate, avgPerPerHouse, veterans,
-                                          highSchoolUp, bachelorDegreeUp, foreignBorn, numHouseHold,
-                                          popFemale);
+    return make_shared<demogData>();
 }
 
-
-//read one line of police data
-shared_ptr<psData> readCSVLinePolice(std::string theLine) {
+shared_ptr<regionData> readCSVLinePolice(std::string theLine) {
     std::stringstream ss(theLine);
+    
+    //TODO fill in and fix constructor
 
-    //TO DO read in the fields - use getFieldNQ as no quotes!!
-    getField(ss); //ignore id
-    string name = getField(ss);
-    //skip 2
-    getField(ss);
-    getField(ss);
-    //fill in
-    string armed = getField(ss);
-
-    getField(ss);
-    getField(ss);
-
-    string ethnicity = getField(ss);
-    string city = getField(ss);
-    string state = getField(ss);
-    string mentalIll = getField(ss);
-
-    getField(ss);
-    getField(ss);
-
-    string bodyCam = getField(ss);
-    getField(ss);
-    getField(ss);
-    getField(ss);
-
-    /* TO DO fix */
-    return make_shared<psData>(state, city, name, ethnicity, mentalIll, armed, bodyCam);
+    return make_shared<psData>();
 }
 
-//read from a CSV file (for a given data type) return a vector of the data
-// DO NOT modify
-std::vector<shared_ptr<RegionData>> read_csv(const std::string& filename, typeFlag fileType) {
-    //the actual data
-    std::vector<shared_ptr<RegionData>> theData;
+
+// Rewrite as one method - maybe replace typeFlag with search on columns
+void read_csv(std::vector<shared_ptr<regionData>>& theData, std::string filename, typeFlag fileType) {
 
     // Create an input filestream
     std::ifstream myFile(filename);
@@ -158,6 +87,7 @@ std::vector<shared_ptr<RegionData>> read_csv(const std::string& filename, typeFl
     if(myFile.good()) {
         consumeColumnNames(myFile);
 
+        // Helper vars
         std::string line;
 
         // Now read data, line by line and create demographic dataobject
@@ -166,7 +96,7 @@ std::vector<shared_ptr<RegionData>> read_csv(const std::string& filename, typeFl
                 theData.push_back(readCSVLineDemog(line));
             } else if (fileType == POLICE) {
                 theData.push_back(readCSVLinePolice(line));
-            } else {
+            }else {
                 cout << "ERROR - unknown file type" << endl;
                 exit(0);
             }
@@ -176,5 +106,7 @@ std::vector<shared_ptr<RegionData>> read_csv(const std::string& filename, typeFl
         myFile.close();
     }
 
-    return theData;
 }
+
+
+
