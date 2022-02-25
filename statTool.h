@@ -4,7 +4,7 @@
 
 #include "demogCombo.h"
 #include "psCombo.h"
-
+#include "visitorCombine.h"
 #include "Visitor.h"
 #include "stats.h"
 

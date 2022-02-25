@@ -10,12 +10,17 @@ public:
     visitorReport() : numVisited(0) {}
 
     void visit(shared_ptr<demogData> e) override {
-        //fill in
+        cout << *e << endl;
     }
     
     void visit(shared_ptr<psData> e) override {
-        //fill in
+        cout << *e << endl;
     }
+
+    void visit(std::shared_ptr<psCombo> d) override {
+        cout << d << endl;
+    }
+
 
     private:
     	int numVisited;

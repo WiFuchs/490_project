@@ -38,7 +38,7 @@ static void writeToCSV(vector<double> &x, vector<double> y, string file){
 
 /* statTool:: wrapper for some useful functions to report necessary data */
 /* call visitor pattern to create state data */
-void statTool::createStateData(std::vector<shared_ptr<regionData>>& theData, Visitor& theStates) {
+void statTool::createStateData(std::vector<shared_ptr<regionData> >& theData, Visitor& theStates) {
 
    //use visitor pattern to be able to aggregate
     for (const auto &obj : theData) {
@@ -47,7 +47,7 @@ void statTool::createStateData(std::vector<shared_ptr<regionData>>& theData, Vis
 }
 
 /* call visitor pattern to create county data */
-void statTool::createCountyData(std::vector<shared_ptr<regionData>>& theData, Visitor& theCounties) {
+void statTool::createCountyData(std::vector<shared_ptr<regionData> >& theData, Visitor& theCounties) {
 
    //use visitor pattern to be able to aggregate
     for (const auto &obj : theData) {
@@ -56,7 +56,7 @@ void statTool::createCountyData(std::vector<shared_ptr<regionData>>& theData, Vi
 }
 
 /* call visitor pattern to create key data */
-void statTool::createKeyData(std::vector<shared_ptr<regionData>>& theData, Visitor& theKeyed) {
+void statTool::createKeyData(std::vector<shared_ptr<regionData> >& theData, Visitor& theKeyed) {
 
    //use visitor pattern to be able to aggregate
     for (const auto &obj : theData) {

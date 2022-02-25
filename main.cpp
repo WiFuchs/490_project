@@ -13,6 +13,7 @@
 #include "statTool.h"
 #include "Visitor.h"
 #include "visitorCombineState.h"
+#include "visitorCombineCounty.h"
 
 using namespace std;
 
@@ -24,17 +25,15 @@ using namespace std;
 int main() {
 
     //read in a csv file and create a vector of objects representing each counties data
-    std::vector<shared_ptr<regionData>> theData = read_csv(
-            "county_demographics.csv", DEMOG);
+    std::vector<shared_ptr<regionData>> theData;
+    read_csv(theData,"county_demographics.csv", DEMOG);
 
 //    //debug print out - uncomment if you want to double check your data
 //     for (const auto &obj : theData) {
 //       std::cout << *obj << std::endl; }
 
 
-    std::vector<shared_ptr<regionData>> thePoliceData = read_csv(
-            "fatal-police-shootings-data.csv", POLICE);
-    theData.insert(theData.end(), thePoliceData.begin(), thePoliceData.end());
+    read_csv(theData, "fatal-police-shootings-data.csv", POLICE);
 
     //debug print out if needed left for your use in testing
 
@@ -47,14 +46,28 @@ int main() {
 //    }
 
     statTool statToolHelper;
-    visitorCombineState vCombine;
-    statToolHelper.createStateData(theData, vCombine);
+    visitorCombineState vCombineState;
+    statToolHelper.createStateData(theData, vCombineState);
 
-
-    visitorReport report;
-    for (const auto &obj : theData) {
-        obj->accept(report);
+    visitorCombineCounty vCombineCounty("uscities.csv");
+    statToolHelper.createCountyData(theData, vCombineCounty);
+    cout << "here" << endl;
+    int i = 0;
+    for (auto elem : vCombineState.getComboDemog()) {
+        i++;
+        cout << *elem.second << endl;
+        if (i > 20) {
+            break;
+        }
     }
+    cout << "unmatched: " << vCombineCounty.noMatch << endl;
+    cout << "done" << endl;
+
+
+//    visitorReport report;
+//    for (const auto &obj : theData) {
+//        obj->accept(report);
+//    }
 
 
     return 0;

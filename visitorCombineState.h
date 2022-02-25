@@ -31,6 +31,11 @@ public:
         *comboData += *data;
     }
 
+    void visit(std::shared_ptr<psCombo> d) override {
+        assert(false);
+    }
+
+
     private:
        //inherited
 };
