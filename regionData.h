@@ -10,7 +10,7 @@
 #include "Visitor.h"
 
 
-class RegionData {
+class regionData {
 public:
     std::string getName() {return name;}
     std::set<std::string> getStates() {return states;}

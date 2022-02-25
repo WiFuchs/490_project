@@ -10,6 +10,9 @@
 #include "ellipse.h"
 #include "annulus.h"
 #include "visitorReport.h"
+#include "statTool.h"
+#include "Visitor.h"
+#include "visitorCombineState.h"
 
 using namespace std;
 
@@ -21,7 +24,7 @@ using namespace std;
 int main() {
 
     //read in a csv file and create a vector of objects representing each counties data
-    std::vector<shared_ptr<RegionData>> theData = read_csv(
+    std::vector<shared_ptr<regionData>> theData = read_csv(
             "county_demographics.csv", DEMOG);
 
 //    //debug print out - uncomment if you want to double check your data
@@ -29,7 +32,7 @@ int main() {
 //       std::cout << *obj << std::endl; }
 
 
-    std::vector<shared_ptr<RegionData>> thePoliceData = read_csv(
+    std::vector<shared_ptr<regionData>> thePoliceData = read_csv(
             "fatal-police-shootings-data.csv", POLICE);
     theData.insert(theData.end(), thePoliceData.begin(), thePoliceData.end());
 
@@ -42,6 +45,11 @@ int main() {
 //        if (i > 15)
 //            break;
 //    }
+
+    statTool statToolHelper;
+    visitorCombineState vCombine;
+    statToolHelper.createStateData(theData, vCombine);
+
 
     visitorReport report;
     for (const auto &obj : theData) {

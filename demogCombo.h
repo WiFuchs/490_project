@@ -6,7 +6,7 @@
 #include <iostream>
 #include "demogData.h"
 #include "Ethnicity.h"
-#include "RegionData.h"
+#include "regionData.h"
 #include "demogData.h"
 
 /*

@@ -5,7 +5,7 @@
 #include<iostream>
 #include <math.h>
 #include "Ethnicity.h"
-#include "RegionData.h"
+#include "regionData.h"
 
 using namespace std;
 
@@ -13,13 +13,13 @@ using namespace std;
   class to represent county demographic data
   from CORGIS - fill in with any data we agree as a class we want to include
 */
-class demogData : public RegionData{
+class demogData : public regionData, public std::enable_shared_from_this<demogData> {
   public:
     demogData(string inN, string inS, double in65, double in18,
         double in5, int totPop20, Ethnicity ethnicity,
         double mIncome, double homeowners, double pph, double vet,
         double highSchool, double bachelors, double foreign, int hUnits,
-        double females) : RegionData(),
+        double females) : regionData(),
             name(inN), state(inS), popOver65(in65), popUnder18(in18),
             popUnder5(in5), totalPopulation2020(totPop20),
             ethnicity(ethnicity), medianIncome(mIncome), homeowners(homeowners),
@@ -85,7 +85,7 @@ class demogData : public RegionData{
    friend std::ostream& operator<<(std::ostream &out, const demogData &DD);
 
    void accept(class Visitor &v) override {
-       v.visit(*this);
+       v.visit(shared_from_this());
    }
 
 protected:

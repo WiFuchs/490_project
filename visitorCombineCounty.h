@@ -13,6 +13,7 @@
 
 class visitorCombineCounty : public visitorCombine {
 public:
+    int noMatch;
     visitorCombineCounty(std::string filename) {
         noMatch = 0;
         read_csvCityCounty(filename);

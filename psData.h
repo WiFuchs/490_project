@@ -4,8 +4,7 @@
 #include <string>
 #include <iostream>
 #include <utility>
-#include "RegionData.h"
-
+#include "regionData.h"
 
 using namespace std;
 
@@ -13,11 +12,11 @@ using namespace std;
   class to represent police shooting data
   from Washington Post
 */
-class psData : public RegionData {
+class psData : public regionData, public enable_shared_from_this<psData> {
 public:
     //add appropriate function paramaters to constructor once you add data
     psData(string inState, string city, string name, string eth, string mentalIll,
-           string armed, string bodyCam) : RegionData(), state(inState), city(city), name(name), ethnicity(eth),
+           string armed, string bodyCam) : regionData(), state(inState), city(city), name(name), ethnicity(eth),
                                            signsMentalIllness(mentalIll), armed(armed), bodyCam(bodyCam)  {}
 
     string getState() const { return state; }
@@ -32,7 +31,7 @@ public:
     string getBodyCam() const { return bodyCam; }
 
     void accept(class Visitor &v) override {
-        v.visit(*this);
+        v.visit(shared_from_this());
     }
 
     friend std::ostream& operator<<(std::ostream &out, const psData &PD);

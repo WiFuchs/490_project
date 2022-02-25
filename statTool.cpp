@@ -132,7 +132,7 @@ int statTool::gatherBothStats(visitorCombine*  theAggregate, vector<double> &XPe
         if (!isnan(xC) && !isnan(yC)) {
             XCount.push_back(xC);
             Ycount.push_back(yC);
-            totPop += (entry.second)->getPop();
+            totPop += (entry.second)->getTotalPopulation2020();
         }
     }
     return totPop;
