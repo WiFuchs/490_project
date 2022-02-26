@@ -14,6 +14,7 @@
 class visitorCombineCounty : public visitorCombine {
 public:
     int noMatch;
+    vector<string> unmatched;
     visitorCombineCounty(std::string filename) {
         noMatch = 0;
         read_csvCityCounty(filename);
@@ -34,13 +35,25 @@ public:
     
     //aggregate police shooting data by county
     void visit(shared_ptr<psData> obj) override {
-        string cityKey = obj->getCity() + obj->getState();
-        auto countyIt = cityToCounty.find(cityKey);
-        if (countyIt == cityToCounty.end()) {
-            noMatch++;
-            return;
+        string city = obj->getCity();
+        string county;
+        /* some names include the word 'county' - use that as the county */
+        std::string::size_type i = city.find("County");
+        if (i != std::string::npos && i != 0) {
+            // this is a county
+            county = city;
+        } else {
+            string cityKey = stripCounty(city) + obj->getState();
+
+            auto countyIt = cityToCounty.find(cityKey);
+            if (countyIt == cityToCounty.end()) {
+                noMatch++;
+                unmatched.push_back(cityKey);
+                return;
+            }
+            county = countyIt->second;
         }
-        string county = countyIt->second;
+
 
         auto mapEntry = allComboPoliceData.find(county);
         if(mapEntry == allComboPoliceData.end()){
@@ -75,14 +88,18 @@ public:
 
           string city = getField(ss);
           string junk1 = getField(ss);  //"city_ascii","city_alt"
-          string junk0 = getField(ss);
+          string city_alt = getField(ss);
           string state = getField(ss);
           string junk2 = getField(ss); //"state_name"
           string countyfips = getField(ss);
           string county = getField(ss);
-
           string cityKey = city+state;
           string countyKey = county+state;
+          if (!city_alt.empty()) {
+              string alt_city_key = city_alt + state;
+              cityToCounty[alt_city_key] = countyKey;//std::stoi(countyfips);
+
+          }
 
           cityToCounty[cityKey] = countyKey;//std::stoi(countyfips);
 
@@ -103,12 +120,6 @@ public:
         //only inherited data at this point
         //helper map to create aggregates from city -> county
         std::string stripCounty(string inWord) {
-//            string compareS = "County";
-//            /* some names include the word 'county' - strip */
-//            std::string::size_type i = inWord.find(compareS);
-//            if (i != std::string::npos) {
-//                inWord.erase(i-1, compareS.length()+1);
-//            }
             //apostrophe issue - strip will result in lack of rep - better solution?
             string symbol = "\'";
             std::string::size_type i = inWord.find(symbol);
@@ -136,7 +147,6 @@ public:
             if (i != std::string::npos) {
                 inWord.erase(i-1, ca.length()+1);
             }
-            inWord = "'" + inWord + "'";
             return inWord;
         }
         std::map<string, string> cityToCounty;

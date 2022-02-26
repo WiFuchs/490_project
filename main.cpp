@@ -53,9 +53,15 @@ int main() {
     visitorCombineCounty theCounties("uscities.csv");
     statTool::createCountyData(theData, theCounties);
     cout << "number of unmatched incidents: " << theCounties.noMatch << endl;
+
+    for (auto unmatched : theCounties.unmatched) {
+        cout << unmatched << endl;
+    }
+    cout << "number of unmatched incidents: " << theCounties.noMatch << endl;
+
     //305 at this moment
     //DEBUG only printing top ten for testing
-    theCounties.printNCombo(20);
+    theCounties.printNCombo(1);
     cout << "stats work:" << endl;
     cout << "state home ownership and BA: " << endl;
     statTool::computeStatsDemogRegionData(&theStates, &demogData::getHomeowners,
