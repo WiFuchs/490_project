@@ -11,7 +11,7 @@
 
 /*
   class to represent state data - fairly redundent at this point but will use
-  inheritence later - FILL IN
+  inheritance later - FILL IN
 */
 
 class demogCombo : public demogData {
@@ -55,8 +55,8 @@ class demogCombo : public demogData {
 
        // unique
        totalPopulation2020 = totalPop;
-       medianIncome = (medianIncome * getTotalPopulation2020() + b.getMedianIncome() * b.getTotalPopulation2020()) / totalPop;
-       personsPerHouse = (personsPerHouse * getTotalPopulation2020() + b.getPersonsPerHouse() * b.getTotalPopulation2020()) / totalPop;
+       medianIncome = ((medianIncome * getTotalPopulation2020()) + (b.getMedianIncome() * b.getTotalPopulation2020())) / totalPop;
+       personsPerHouse = ((personsPerHouse * getTotalPopulation2020()) + (b.getPersonsPerHouse() * b.getTotalPopulation2020())) / totalPop;
        housingUnits = housingUnits + b.getHousingUnits();
        ethnicity += b.getEthnicity();
 

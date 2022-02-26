@@ -154,10 +154,21 @@ void statTool::computeStatsDemogRegionData(visitorCombine*  theRegions,
     int totPop = gatherBothStats(theRegions, dataXpercent, dataYpercent, 
         dataXcount, dataYcount, f1, f2, f3, f4);
 
-    double mX = stats::computePopMean(dataXcount, totPop); 
+    double mX = stats::computePopMean(dataXcount, totPop);
     double mY = stats::computePopMean(dataYcount, totPop);  
     cout << "REGION demographic statistics:" << endl;
-    cout << "stats mean X: " << mX    << " size of vector: " << dataXcount.size() << endl;
+
+//    for(int i = 0; i<dataXcount.size(); i++){
+//        cout << "test: " << i << ": " << dataXcount[i] << endl;
+//    }
+
+    for(int i = 0; i<dataXcount.size(); i++){
+        cout << "dataXcount: " << i << ": " << dataXcount[i] << endl;
+        cout << "dataYcount: " << i << ": " << dataYcount[i] << endl;
+    }
+
+    //x and y percents, mY checks out -> mX wrong
+    cout << "stats mean X: " << mX << " size of vector: " << dataXcount.size() << endl;
     cout << "stats mean Y: " << mY << " size of vector: " << dataYcount.size() << endl;
 
     cout << "std dev mean X: " << stats::computeStdDevPop(dataXpercent, mX) << endl;
@@ -166,7 +177,7 @@ void statTool::computeStatsDemogRegionData(visitorCombine*  theRegions,
     cout << "Population Coeff: " <<stats::computeCorCoeffPop(dataXpercent, dataYpercent, mX, mY)<< endl;
 
 
-    writeToCSV(dataXcount, dataYcount, "DemogCounts.csv");
+    writeToCSV(dataXcount, dataYcount, "DemogCounts.csv");  //DEMOG COUNTS x's == 0
     writeToCSV(dataXpercent, dataYpercent, "DemogPercents.csv");
     
 }
@@ -184,9 +195,8 @@ void statTool::computeStatsMixRegionData(visitorCombine*  theRegions,
     double mX = stats::computeMean(dataX); 
     double mY = stats::computeMean(dataY);  
     cout << "REGION stats comparing demographic and police shooting data " << endl;
-    cout << "stats mean X: " << mX    << " size of vector: " << dataX.size() << endl;
+    cout << "stats mean X: " << mX << " size of vector: " << dataX.size() << endl;
     cout << "stats mean Y: " << mY << " size of vector: " << dataY.size() << endl;
-
     cout << "std dev mean X: " << stats::computeStdDevSample(dataX) << endl;
     cout << "std dev mean Y: " << stats::computeStdDevSample(dataY) << endl;
     cout << "Correlation Coeff (sample): " <<stats::computeCorCoeffSample(dataX, dataY)<< endl;
@@ -207,9 +217,8 @@ void statTool::computeStatsPSData(visitorCombine*  theRegions,
     double mX = stats::computeMean(dataX); 
     double mY = stats::computeMean(dataY);  
     cout << "REGION stats comparing police shooting data two variables " << endl;
-    cout << "stats mean X: " << mX    << " size of vector: " << dataX.size() << endl;
+    cout << "stats mean X: " << mX << " size of vector: " << dataX.size() << endl;
     cout << "stats mean Y: " << mY << " size of vector: " << dataY.size() << endl;
-
     cout << "std dev mean X: " << stats::computeStdDevSample(dataX) << endl;
     cout << "std dev mean Y: " << stats::computeStdDevSample(dataY) << endl;
     cout << "Correlation Coeff (sample): " <<stats::computeCorCoeffSample(dataX, dataY)<< endl;

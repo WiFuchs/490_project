@@ -15,11 +15,9 @@ double stats::computeMean(vector<double> theNums){
 
 //pass in counts
 double stats::computePopMean(vector<double> theNums, int totPop){
-
 	double sum = std::accumulate(theNums.begin(), theNums.end(), 0.0);
 	return sum / totPop;
 }
-
 
 //pass in percentages
 double stats::computeStdDevPop(std::vector<double> theNums, double theMean) {

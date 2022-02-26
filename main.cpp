@@ -47,8 +47,10 @@ int main() {
 
     //create a visitor to combine the state data
     visitorCombineState theStates;
+
     statTool::createStateData(theData, theStates);
     //theStates.printAllCombo();
+
     //create a visitor to combine the county data
     visitorCombineCounty theCounties("uscities.csv");
     statTool::createCountyData(theData, theCounties);
@@ -59,6 +61,8 @@ int main() {
     theCounties.printNCombo(1);
     cout << "stats work:" << endl;
     cout << "state home ownership and BA: " << endl;
+
+    //homeowners data looks good
     statTool::computeStatsDemogRegionData(&theStates, &demogData::getHomeowners,
                                           &demogData::getBachelorsDegree,
                                           &demogData::getHomeownersCount, &demogData::getBachelorsDegreeCount);

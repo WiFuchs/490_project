@@ -39,7 +39,7 @@ public:
     std::map<string, shared_ptr<psCombo> > & getComboPolice() { return allComboPoliceData; }
 
     protected:
-    	//combo maps
+        //combo maps
        std::map<string, shared_ptr<demogCombo> > allComboDemogData;
        std::map<string, shared_ptr<psCombo> > allComboPoliceData;
 };

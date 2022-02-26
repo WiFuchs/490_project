@@ -15,8 +15,8 @@ public:
             allComboDemogData.insert(pair<string, shared_ptr<demogCombo> >(data->getState(), make_shared<demogCombo>(data->getState(), 0, 0, 0, 0, Ethnicity(0,0,0,0,0,0,0,0,0), 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)));
             mapEntry = allComboDemogData.find(data->getState());
         }
-
         shared_ptr<demogCombo> comboData = mapEntry->second;
+        //cout << "comboData " << *comboData << endl;
         *comboData += *data;
     }
 
@@ -26,7 +26,6 @@ public:
             allComboPoliceData.insert(pair<string, shared_ptr<psCombo> >(data->getState(), make_shared<psCombo>(data->getState(), 0, 0, 0, 0, 0, data->getState(), Ethnicity(0,0,0,0,0,0,0,0,0))));
             mapEntry = allComboPoliceData.find(data->getState());
         }
-
         shared_ptr<psCombo> comboData = mapEntry->second;
         *comboData += *data;
     }
@@ -34,7 +33,6 @@ public:
     void visit(std::shared_ptr<psCombo> d) override {
         assert(false);
     }
-
 
     private:
        //inherited
