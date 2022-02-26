@@ -147,6 +147,11 @@ public:
             if (i != std::string::npos) {
                 inWord.erase(i-1, ca.length()+1);
             }
+            ca = "Township";
+            i = inWord.find(ca);
+            if (i != std::string::npos) {
+                inWord.erase(i-1, ca.length()+1);
+            }
             return inWord;
         }
         std::map<string, string> cityToCounty;

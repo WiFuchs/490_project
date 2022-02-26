@@ -54,11 +54,6 @@ int main() {
     statTool::createCountyData(theData, theCounties);
     cout << "number of unmatched incidents: " << theCounties.noMatch << endl;
 
-    for (auto unmatched : theCounties.unmatched) {
-        cout << unmatched << endl;
-    }
-    cout << "number of unmatched incidents: " << theCounties.noMatch << endl;
-
     //305 at this moment
     //DEBUG only printing top ten for testing
     theCounties.printNCombo(1);
