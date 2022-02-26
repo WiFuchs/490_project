@@ -45,22 +45,36 @@ int main() {
 //            break;
 //    }
 
-    statTool statToolHelper;
-    visitorCombineState vCombineState;
-    statToolHelper.createStateData(theData, vCombineState);
-
-    visitorCombineCounty vCombineCounty("uscities.csv");
-    statToolHelper.createCountyData(theData, vCombineCounty);
-    cout << "here" << endl;
-    int i = 0;
-    for (auto elem : vCombineState.getComboDemog()) {
-        i++;
-        cout << *elem.second << endl;
-        if (i > 20) {
-            break;
-        }
-    }
-    cout << "unmatched: " << vCombineCounty.noMatch << endl;
+    //create a visitor to combine the state data
+    visitorCombineState theStates;
+    statTool::createStateData(theData, theStates);
+    //theStates.printAllCombo();
+    //create a visitor to combine the county data
+    visitorCombineCounty theCounties("uscities.csv");
+    statTool::createCountyData(theData, theCounties);
+    cout << "number of unmatched incidents: " << theCounties.noMatch << endl;
+    //305 at this moment
+    //DEBUG only printing top ten for testing
+    theCounties.printNCombo(20);
+    cout << "stats work:" << endl;
+    cout << "state home ownership and BA: " << endl;
+    statTool::computeStatsDemogRegionData(&theStates, &demogData::getHomeowners,
+                                          &demogData::getBachelorsDegree,
+                                          &demogData::getHomeownersCount, &demogData::getBachelorsDegreeCount);
+    cout << "county home ownership and BA: " << endl;
+    statTool::computeStatsDemogRegionData(&theCounties,
+                                          &demogData::getHomeowners, &demogData::getBachelorsDegree,
+                                          &demogData::getHomeownersCount, &demogData::getBachelorsDegreeCount);
+    cout << "county PS mental illness to African American " << endl;
+    statTool::computeStatsPSData(&theCounties, &psCombo::getNumMentalI,
+                                 &psCombo::getCountBlack);
+    cout << "county PS mental illness to White " << endl;
+    statTool::computeStatsPSData(&theCounties, &psCombo::getNumMentalI,
+                                 &psCombo::getCountWhite);
+    cout << "State data Pop veterans and high school and up: " << endl;
+    statTool::computeStatsDemogRegionData(&theStates,
+                                          &demogData::getVeterans, &demogData::getHighSchoolDegree,
+                                          &demogData::getVeteransCount, &demogData::getHighSchoolDegreeCount);
     cout << "done" << endl;
 
 

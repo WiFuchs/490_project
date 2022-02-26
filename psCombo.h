@@ -23,6 +23,8 @@ public:
     int getNumberOfCases() const { return numberOfCases; } //total number for a region
     string getRegion() const { return region; } //return state for p2
 
+    int getCountBlack() const {return raceEthnicity.getBlackAloneCount();}
+    int getCountWhite() const {return raceEthnicity.getWhiteAloneCount();}
     //add any others needed
     Ethnicity getRaceEthnicity() const { return raceEthnicity; }
 

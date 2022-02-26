@@ -21,10 +21,11 @@ public:
 
     //store demographic data by county name
 	void visit(shared_ptr<demogData> data) override {
-        auto mapEntry = allComboDemogData.find(data->getName());
+        string countyKey = data->getName() + data->getState();
+        auto mapEntry = allComboDemogData.find(countyKey);
         if(mapEntry == allComboDemogData.end()){
-            allComboDemogData.insert(pair<string, shared_ptr<demogCombo> >(data->getName(), make_shared<demogCombo>(data->getName(), 0, 0, 0, 0, Ethnicity(0,0,0,0,0,0,0,0,0), 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)));
-            mapEntry = allComboDemogData.find(data->getName());
+            allComboDemogData.insert(pair<string, shared_ptr<demogCombo> >(countyKey, make_shared<demogCombo>(countyKey, 0, 0, 0, 0, Ethnicity(0,0,0,0,0,0,0,0,0), 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)));
+            mapEntry = allComboDemogData.find(countyKey);
         }
 
         shared_ptr<demogCombo> comboData = mapEntry->second;
