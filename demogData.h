@@ -72,7 +72,7 @@ class demogData : public regionData, public std::enable_shared_from_this<demogDa
       double count = totalPopulation2020 * foreignBorn;
       return round(count); }
 
-    double getVeterans() const { return veterans / totalPopulation2020; }
+    double getVeterans() const { return veterans; }
     int getVeteransCount() const {
         return round(veterans * totalPopulation2020); }
     double getMedianIncome() const { return medianIncome; }
