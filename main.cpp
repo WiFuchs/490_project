@@ -86,7 +86,7 @@ int main() {
                                           &demogData::getFemales, &demogData::getBachelorsDegree,
                                           &demogData::getFemalesCount, &demogData::getBachelorsDegreeCount);
 
-    cout << "state PS unarmed to African American: " << endl; //real unarmed (inclusive of toys etc...)
+    cout << "county PS unarmed to African American: " << endl; //real unarmed (inclusive of toys etc...)
     statTool::computeStatsPSData(&theCounties, &psCombo::getRealUnarmed,
                                  &psCombo::getCountBlack);
 

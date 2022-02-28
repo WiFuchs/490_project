@@ -33,7 +33,6 @@ class demogCombo : public demogData {
        // Add populations
        int totalPop = getTotalPopulation2020() + b.getTotalPopulation2020();
 
-
        // get counts
        int newPopOver65Count = getPopOver65Count() + b.getPopOver65Count();
        int newPopUnder18Count = getPopUnder18Count() + b.getPopUnder18Count();
