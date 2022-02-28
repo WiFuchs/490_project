@@ -52,7 +52,7 @@ class demogData : public regionData, public std::enable_shared_from_this<demogDa
       double count = totalPopulation2020 * highSchoolDegree;
       return round(count); }
 
-    double getBachelorsDegree() const { return bachelorsDegree; }
+    double getBachelorsDegree() const { return bachelorsDegree * 100; } //*100 fixed std dev Y; 23% instead of .23 etc...
     int getBachelorsDegreeCount() const {
       double count = totalPopulation2020 * bachelorsDegree;
       return round(count); }
@@ -65,6 +65,7 @@ class demogData : public regionData, public std::enable_shared_from_this<demogDa
         assert(0 <= homeOwnershipRate);
         assert(1 >= homeOwnershipRate);
         return homeOwnershipRate; }
+
     int getHomeownersCount() const {
       double count = housingUnits * homeOwnershipRate;
       return round(count); }
