@@ -162,10 +162,10 @@ void statTool::computeStatsDemogRegionData(visitorCombine*  theRegions,
 //        cout << "test: " << i << ": " << dataXcount[i] << endl;
 //    }
 
-    for(int i = 0; i<dataXcount.size(); i++){
-        cout << "dataXcount: " << i << ": " << dataXcount[i] << endl;
-        cout << "dataYcount: " << i << ": " << dataYcount[i] << endl;
-    }
+//    for(int i = 0; i<dataXcount.size(); i++){
+//        cout << "dataXcount: " << i << ": " << dataXcount[i] << endl;
+//        cout << "dataYcount: " << i << ": " << dataYcount[i] << endl;
+//    }
 
     //x and y percents, mY checks out -> mX wrong
     cout << "stats mean X: " << mX << " size of vector: " << dataXcount.size() << endl;

@@ -89,16 +89,14 @@ shared_ptr<regionData> readCSVLineDemog(std::string theLine) {
     for (int i=0; i < 5; i++)
         getField(ss);
     double popFemale = stod(getField(ss))/100.0;
-    int veterans = stoi(getField(ss));
+    int veteransCount = stoi(getField(ss));
     int totalPop2020 = stoi(getField(ss));
-    //community racial mix created with counts not percents
-    /*TO DO construct your type for race/ethnicity info */
-    //store demographic data as counts
-    /*TO DO fix to construct your type */
-    //return make_shared<demogData>(.....);
 
-    Ethnicity ethnicity = Ethnicity(White, Black, FirstNation, Asian, HIPacificIsle,
-                                    MultiRace, Latinx, WhiteNH, totalPop2020);
+    double veterans = veteransCount / double(totalPop2020);
+    //community racial mix created with counts not percents
+
+    Ethnicity ethnicity = Ethnicity(round(White*totalPop2020), round(Black*totalPop2020), round(FirstNation*totalPop2020), round(Asian*totalPop2020), round(HIPacificIsle*totalPop2020),
+                                    round(MultiRace*totalPop2020), round(Latinx*totalPop2020), round(WhiteNH*totalPop2020), totalPop2020);
 
     return make_shared<demogData>(name, state, popOver65, popUnder18, popUnder5, totalPop2020,
                                   ethnicity, houseIncome, homeOwnRate, avgPerPerHouse, veterans,
