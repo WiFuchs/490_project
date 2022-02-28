@@ -80,6 +80,21 @@ int main() {
     statTool::computeStatsDemogRegionData(&theStates,
                                           &demogData::getVeterans, &demogData::getHighSchoolDegree,
                                           &demogData::getVeteransCount, &demogData::getHighSchoolDegreeCount);
+    // 3 ADDITIONAL QUERIES
+    cout << "county data population female and BA: " << endl;
+    statTool::computeStatsDemogRegionData(&theCounties,
+                                          &demogData::getFemales, &demogData::getBachelorsDegree,
+                                          &demogData::getFemalesCount, &demogData::getBachelorsDegreeCount);
+
+    cout << "state PS unarmed to African American: " << endl; //real unarmed (inclusive of toys etc...)
+    statTool::computeStatsPSData(&theCounties, &psCombo::getRealUnarmed,
+                                 &psCombo::getCountBlack);
+
+    cout << "state data homeowners to veterans: " << endl;
+    statTool::computeStatsDemogRegionData(&theStates, &demogData::getHomeOwnershipRate,
+                                          &demogData::getVeterans,
+                                          &demogData::getHomeownersCount, &demogData::getVeteransCount);
+
     cout << "done" << endl;
 
 
