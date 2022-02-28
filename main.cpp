@@ -58,17 +58,17 @@ int main() {
 
     //305 at this moment
     //DEBUG only printing top ten for testing
-    theCounties.printNCombo(1);
+    theStates.printNCombo(1);
     cout << "stats work:" << endl;
     cout << "state home ownership and BA: " << endl;
 
-    //homeowners data looks good
-    statTool::computeStatsDemogRegionData(&theStates, &demogData::getHomeowners,
+    //homeOwnershipRate data looks good
+    statTool::computeStatsDemogRegionData(&theStates, &demogData::getHomeOwnershipRate,
                                           &demogData::getBachelorsDegree,
                                           &demogData::getHomeownersCount, &demogData::getBachelorsDegreeCount);
     cout << "county home ownership and BA: " << endl;
     statTool::computeStatsDemogRegionData(&theCounties,
-                                          &demogData::getHomeowners, &demogData::getBachelorsDegree,
+                                          &demogData::getHomeOwnershipRate, &demogData::getBachelorsDegree,
                                           &demogData::getHomeownersCount, &demogData::getBachelorsDegreeCount);
     cout << "county PS mental illness to African American " << endl;
     statTool::computeStatsPSData(&theCounties, &psCombo::getNumMentalI,

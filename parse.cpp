@@ -58,11 +58,11 @@ shared_ptr<regionData> readCSVLineDemog(std::string theLine) {
     std::stringstream ss(theLine);
     string name = getField(ss);
     string state = getField(ss);
-    double popOver65 = stod(getField(ss))/100.0;
-    double popUnder18 = stod(getField(ss))/100.0;
-    double popUnder5 = stod(getField(ss))/100.0;
-    double bachelorDegreeUp = stod(getField(ss))/100.0;
-    double highSchoolUp = stod(getField(ss))/100.0;
+    double popOver65 = max(stod(getField(ss))/100.0, 0.0);
+    double popUnder18 = max(stod(getField(ss))/100.0, 0.0);
+    double popUnder5 = max(stod(getField(ss))/100.0, 0.0);
+    double bachelorDegreeUp = max(stod(getField(ss))/100.0, 0.0);
+    double highSchoolUp = max(stod(getField(ss))/100.0, 0.0);
     //skip 1
     getField(ss);
     //store initial data as percent (then convert to count)
@@ -74,22 +74,22 @@ shared_ptr<regionData> readCSVLineDemog(std::string theLine) {
     double MultiRace= stod(getField(ss))/100.0;
     double White= stod(getField(ss))/100.0;
     double WhiteNH = stod(getField(ss))/100.0;
-    float homeOwnRate = stod(getField(ss))/100.0;
-    int numHouseHold = stoi(getField(ss));
+    double homeOwnRate = max(stod(getField(ss))/100.0, 0.0);
+    int numHouseHold = max(stoi(getField(ss)), 0);
     //skip 2
     getField(ss);
     getField(ss);
-    float avgPerPerHouse = stod(getField(ss));
+    float avgPerPerHouse = max(stod(getField(ss)), 0.0);
     //turn into mathematical percent
-    long int houseIncome = stoi(getField(ss));
+    long int houseIncome = max(stoi(getField(ss)), 0);
     //skip 1
     getField(ss);
-    double foreignBorn= stod(getField(ss))/100.0;
+    double foreignBorn= max(stod(getField(ss))/100.0, 0.0);
     //skip 5
     for (int i=0; i < 5; i++)
         getField(ss);
-    double popFemale = stod(getField(ss))/100.0;
-    int veteransCount = stoi(getField(ss));
+    double popFemale = max(stod(getField(ss))/100.0, 0.0);
+    int veteransCount = max(stoi(getField(ss)), 0);
     int totalPop2020 = stoi(getField(ss));
 
     double veterans = veteransCount / double(totalPop2020);

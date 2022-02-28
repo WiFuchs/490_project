@@ -36,7 +36,7 @@
 //    shared_ptr<demogCombo> belowPoverty();
 //    //return the name of the state with the largest population of foreign born people
 //    shared_ptr<demogCombo> mostForBorn();
-//    //return the name of the state with the fewest % homeowners
+//    //return the name of the state with the fewest % homeOwnershipRate
 //    shared_ptr<demogCombo> mostHomeowners();
 //    //return the name of the state with the highest % females
 //    shared_ptr<demogCombo> mostFemales();

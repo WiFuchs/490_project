@@ -16,7 +16,6 @@ public:
             mapEntry = allComboDemogData.find(data->getState());
         }
         shared_ptr<demogCombo> comboData = mapEntry->second;
-        //cout << "comboData " << *comboData << endl;
         *comboData += *data;
     }
 

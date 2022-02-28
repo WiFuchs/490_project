@@ -156,7 +156,7 @@
 //    int popUnder18 = 0;
 //    int popUnder5 = 0;
 //    long medianIncome = 0;
-//    double homeowners = 0;
+//    double homeOwnershipRate = 0;
 //    double personsPerHouse = 0;
 //    int veterans = 0;
 //    int highSchoolDegree = 0;
@@ -182,7 +182,7 @@
 //      popUnder5 += elem->getPopUnder5Count();
 //      stateTotalPop2020 += elem->getTotalPopulation2020();
 //
-//      homeowners += elem->getHomeownersCount();
+//      homeOwnershipRate += elem->getHomeownersCount();
 //      veterans += elem->getVeteransCount();
 //      highSchoolDegree += elem->getHighSchoolDegreeCount();
 //      bachelorsDegree += elem->getBachelorsDegreeCount();
@@ -201,7 +201,7 @@
 //                            asianAlone, hawaiianPIslanderAlone, twoOrMore,
 //                            hispanicOrLatino, whiteNotHispOrLat, stateTotalPop2020);
 //    shared_ptr<demogCombo> s = make_shared<demogCombo>(state, popOver65, popUnder18,
-//                      popUnder5, stateTotalPop2020, e, medianIncome, homeowners,
+//                      popUnder5, stateTotalPop2020, e, medianIncome, homeOwnershipRate,
 //                      personsPerHouse, veterans, highSchoolDegree,
 //                      bachelorsDegree, foreignBorn, housingUnits, females, counties);
 //    shared_ptr<State> curState = getStateData(state);

@@ -22,7 +22,7 @@ class demogData : public regionData, public std::enable_shared_from_this<demogDa
         double females) : regionData(),
             name(inN), state(inS), popOver65(in65), popUnder18(in18),
             popUnder5(in5), totalPopulation2020(totPop20),
-            ethnicity(ethnicity), medianIncome(mIncome), homeowners(homeowners),
+            ethnicity(ethnicity), medianIncome(mIncome), homeOwnershipRate(homeowners),
             personsPerHouse(pph), veterans(vet), highSchoolDegree(highSchool),
             bachelorsDegree(bachelors), foreignBorn(foreign),
             housingUnits(hUnits), females(females) {}
@@ -58,9 +58,15 @@ class demogData : public regionData, public std::enable_shared_from_this<demogDa
       return round(count); }
 
     //Housing info
-    double getHomeowners() const { return homeowners; }
+    double getHomeOwnershipRate() const {
+        if(0 > homeOwnershipRate) {
+            cout << state << ": " << homeOwnershipRate << endl;
+        }
+        assert(0 <= homeOwnershipRate);
+        assert(1 >= homeOwnershipRate);
+        return homeOwnershipRate; }
     int getHomeownersCount() const {
-      double count = totalPopulation2020 * homeowners;
+      double count = housingUnits * homeOwnershipRate;
       return round(count); }
     string getState() const { return state; }
     double getPersonsPerHouse() const { return personsPerHouse; }
@@ -89,6 +95,10 @@ class demogData : public regionData, public std::enable_shared_from_this<demogDa
        v.visit(shared_from_this());
    }
 
+   void print() const {
+       cout << *this << endl;
+   }
+
 protected:
     const string name;
     const string state;
@@ -99,7 +109,7 @@ protected:
 
     Ethnicity ethnicity;
     double medianIncome;
-    double homeowners;
+    double homeOwnershipRate;
     double personsPerHouse;
     double veterans;
     double highSchoolDegree;

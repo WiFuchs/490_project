@@ -30,11 +30,14 @@ class demogCombo : public demogData {
    demogCombo& operator+=(const demogData& b) {
        counties += 1;
 
+       // Add populations
+       int totalPop = getTotalPopulation2020() + b.getTotalPopulation2020();
+
+
        // get counts
        int newPopOver65Count = getPopOver65Count() + b.getPopOver65Count();
        int newPopUnder18Count = getPopUnder18Count() + b.getPopUnder18Count();
        int newPopUnder5Count = getPopUnder5Count() + b.getPopUnder5Count();
-       int totalPop = getTotalPopulation2020() + b.getTotalPopulation2020();
        int newHomeownersCount = getHomeownersCount() + b.getHomeownersCount();
        int newVeteransCount = getVeteransCount() + b.getVeteransCount();
        int newHSDegreeCount = getHighSchoolDegreeCount() + b.getHighSchoolDegreeCount();
@@ -51,13 +54,14 @@ class demogCombo : public demogData {
        bachelorsDegree = double(newBachelorsDegreeCount) / totalPop;
        foreignBorn = double(newForeignBornCount) / totalPop;
        females = double(newFemalesCount) / totalPop;
-       homeowners = double(newHomeownersCount) / totalPop;
+
 
        // unique
        totalPopulation2020 = totalPop;
        medianIncome = ((medianIncome * getTotalPopulation2020()) + (b.getMedianIncome() * b.getTotalPopulation2020())) / totalPop;
        personsPerHouse = ((personsPerHouse * getTotalPopulation2020()) + (b.getPersonsPerHouse() * b.getTotalPopulation2020())) / totalPop;
        housingUnits = housingUnits + b.getHousingUnits();
+       homeOwnershipRate = double(newHomeownersCount) / housingUnits;
        ethnicity += b.getEthnicity();
 
        return *this;
