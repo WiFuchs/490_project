@@ -47,7 +47,7 @@ class demogData : public regionData, public std::enable_shared_from_this<demogDa
     int getTotalPopulation2020() const { return totalPopulation2020; }
 
     //Education Info
-    double getHighSchoolDegree() const { return highSchoolDegree; }
+    double getHighSchoolDegree() const { return highSchoolDegree * 100; }
     int getHighSchoolDegreeCount() const {
       double count = totalPopulation2020 * highSchoolDegree;
       return round(count); }
@@ -79,7 +79,7 @@ class demogData : public regionData, public std::enable_shared_from_this<demogDa
       double count = totalPopulation2020 * foreignBorn;
       return round(count); }
 
-    double getVeterans() const { return veterans; }
+    double getVeterans() const { return veterans *100; }
     int getVeteransCount() const {
         return round(veterans * totalPopulation2020); }
     double getMedianIncome() const { return medianIncome; }
