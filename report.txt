@@ -1,0 +1,72 @@
+The data definitely shows the inequalities in our system.
+I think this is especially true of the police shooting data.
+The positive coefficient of unarmed police shootings to African Americans
+especially demonstrates this.
+
+Overall the redesign process went well but it was definitely
+challenging to implement the visitor design pattern.
+It was also hard to implement the stats tools because we had to change a
+lot of our data to correct the output.
+
+
+
+stats work:
+state home ownership and BA:
+REGION demographic statistics:
+stats mean X: 0.23 size of vector: 51
+stats mean Y: 0.32 size of vector: 51
+std dev mean X: 22.66
+std dev mean Y: 6.29
+Population Coeff: 0.04
+county home ownership and BA:
+REGION demographic statistics:
+stats mean X: 0.23 size of vector: 3139
+stats mean Y: 0.32 size of vector: 3139
+std dev mean X: 22.60
+std dev mean Y: 13.99
+Population Coeff: 0.73
+county PS mental illness to African American
+REGION stats comparing police shooting data two variables
+stats mean X: 0.94 size of vector: 1565
+stats mean Y: 0.97 size of vector: 1565
+std dev mean X: 2.28
+std dev mean Y: 3.27
+Correlation Coeff (sample): 0.66
+county PS mental illness to White
+REGION stats comparing police shooting data two variables
+stats mean X: 0.94 size of vector: 1565
+stats mean Y: 1.83 size of vector: 1565
+std dev mean X: 2.28
+std dev mean Y: 3.18
+Correlation Coeff (sample): 0.82
+State data Pop veterans and high school and up:
+REGION demographic statistics:
+stats mean X: 0.06 size of vector: 51
+stats mean Y: 0.88 size of vector: 51
+std dev mean X: 1.29
+std dev mean Y: 3.12
+Population Coeff: 0.38
+county data population female and BA:
+REGION demographic statistics:
+stats mean X: 0.51 size of vector: 3139
+stats mean Y: 0.32 size of vector: 3139
+std dev mean X: 50.26
+std dev mean Y: 13.99
+Population Coeff: 0.73
+county PS unarmed to African American:
+REGION stats comparing police shooting data two variables
+stats mean X: 0.66 size of vector: 1565
+stats mean Y: 0.97 size of vector: 1565
+std dev mean X: 2.13
+std dev mean Y: 3.27
+Correlation Coeff (sample): 0.66
+state data homeowners to veterans:
+REGION demographic statistics:
+stats mean X: 0.23 size of vector: 51
+stats mean Y: 0.06 size of vector: 51
+std dev mean X: 22.66
+std dev mean Y: 1.29
+Population Coeff: -0.41
+
+
+
